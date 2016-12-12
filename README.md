@@ -1,6 +1,6 @@
 # Cahier des charges SHROOMS
 
-Self Hostable Reticulate Open-source Organisations Management (eco-)System
+**Self Hostable Reticulate Open-source Organisations Management (eco-)System**
 
 ## Besoins
 
