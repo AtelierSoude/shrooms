@@ -21,8 +21,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 
-
-
 ALLOWED_HOSTS = '*'
 
 SITE_ID = 1
@@ -89,9 +87,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ShroomsAPI.wsgi.application'
 
 
-
-
-
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
@@ -131,5 +126,25 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-#REST_AUTH
+# REST_AUTH
 LOGOUT_ON_PASSWORD_CHANGE = False
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAdminUser',
+    ],
+    'PAGE_SIZE': 10
+}
+
+# ALL_AUTH
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "username"
+ACCOUNT_PRESERVE_USERNAME_CASING = False
+CCOUNT_USERNAME_BLACKLIST = [
+    "admin",
+    "administrator",
+]
+ACCOUNT_USERNAME_MIN_LENGTH = 3
+
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True

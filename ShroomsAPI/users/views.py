@@ -18,6 +18,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     Liste et détail des utilisateurs
     """
+    permission_classes = (permissions.IsAdminUser,)
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
     def create(self, request, *args, **kwargs):
