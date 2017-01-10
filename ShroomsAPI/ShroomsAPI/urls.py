@@ -23,15 +23,6 @@ from users.views import *
 admin.autodiscover()
 
 
-def print_url_pattern_names(patterns):
-    """Print a list of urlpattern and their names"""
-    for pat in patterns:
-        if pat.__class__.__name__ == 'RegexURLResolver':
-            print_url_pattern_names(pat.url_patterns)
-        elif pat.__class__.__name__ == 'RegexURLPattern':
-            if pat.name is not None:
-                print('[API-URL] {} \t\t\t-> {}'.format(pat.name, pat.regex.pattern))
-
 drf_router = DefaultRouter()
 drf_router.register(r'users', UserViewSet)
 drf_router.register(r'permissions', PermissionViewSet)
@@ -41,9 +32,24 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^activity/', include('actstream.urls')),
     url(r'^api/', include(drf_router.urls)),
-    url(r'^api/', include('users.urls')),
-    url(r'^api-auth/', include('rest_framework.urls')),
 ]
 
+auth_patterns = [
+    url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls'))
+]
+
+urlpatterns += auth_patterns
+
+
+def show_urls(urllist, depth=0):
+    for entry in urllist:
+        print("\t" * depth, entry.regex.pattern)
+        if hasattr(entry, 'url_patterns'):
+            show_urls(entry.url_patterns, depth + 1)
+
+
+
+# Show urls at start-up during development
 if settings.DEBUG:
-    print_url_pattern_names(urlpatterns)
+    show_urls(urlpatterns)

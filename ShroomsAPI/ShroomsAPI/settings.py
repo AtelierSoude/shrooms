@@ -38,16 +38,22 @@ PREREQ_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'rest_framework',
+    'actstream'
+]
+
+AUTH_APPS = [
     'rest_framework.authtoken',
     'rest_auth',
-    'actstream'
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration'
 ]
 
 PROJECT_APPS = [
     'users'
 ]
 
-INSTALLED_APPS = PROJECT_APPS + PREREQ_APPS
+INSTALLED_APPS = PROJECT_APPS + PREREQ_APPS + AUTH_APPS
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -124,3 +130,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
+#REST_AUTH
+LOGOUT_ON_PASSWORD_CHANGE = False
