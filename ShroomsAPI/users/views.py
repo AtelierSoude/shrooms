@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Permission, Group
 
 from actstream import action
 from rest_framework import generics, permissions, status, viewsets
@@ -8,14 +8,15 @@ from rest_framework.response import Response
 # from .models import *
 # from .mixins import *
 # from .forms import *
-from .serializers import PermissionSerializer, UserSerializer
+from .serializers import (
+    UserSerializer, GroupSerializer)
 
 
 # Create your views here.
 
 class UserViewSet(viewsets.ModelViewSet):
     """
-    Liste et détail des utilisateurs
+    Users viewset
     """
     permission_classes = (permissions.IsAdminUser,)
     queryset = get_user_model().objects.all()
@@ -33,9 +34,10 @@ class UserViewSet(viewsets.ModelViewSet):
         return serializer.save()
 
 
-class PermissionViewSet(viewsets.ModelViewSet):
+class GroupViewSet(viewsets.ModelViewSet):
     """
-    Liste et détail des permissions
+    Django Groups viewset
     """
-    queryset = Permission.objects.all()
-    serializer_class = PermissionSerializer
+    permission_classes = (permissions.IsAdminUser,)
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer

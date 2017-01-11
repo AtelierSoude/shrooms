@@ -25,8 +25,7 @@ admin.autodiscover()
 
 drf_router = DefaultRouter()
 drf_router.register(r'users', UserViewSet)
-drf_router.register(r'permissions', PermissionViewSet)
-drf_router.register(r'permissions', PermissionViewSet)
+drf_router.register(r'groups', GroupViewSet)
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
