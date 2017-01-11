@@ -1,8 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
 from rest_framework import permissions
-from rest_framework.serializers import (HyperlinkedIdentityField,
-                                        HyperlinkedModelSerializer)
+from rest_framework.serializers import HyperlinkedModelSerializer
 
 """
 FIELDS
