@@ -36,7 +36,8 @@ PREREQ_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'rest_framework',
-    'actstream'
+    'actstream',
+    'geoposition',
 ]
 
 AUTH_APPS = [
@@ -48,7 +49,8 @@ AUTH_APPS = [
 ]
 
 PROJECT_APPS = [
-    'users'
+    'users',
+    'actors'
 ]
 
 INSTALLED_APPS = PROJECT_APPS + PREREQ_APPS + AUTH_APPS
