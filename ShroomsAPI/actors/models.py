@@ -154,8 +154,3 @@ class Shroom(Organisation):
     Organisation subclass that defines a Shroom identity
     """
     pass
-
-class Collaborator(Organisation):
-    """
-    Organisation subclass that defines a collaborator identity
-    """

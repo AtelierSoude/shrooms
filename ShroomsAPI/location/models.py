@@ -5,6 +5,8 @@ from location_field.models.spatial import LocationField
 # Create your models here.
 
 class Place(models.Model):
-    city = models.CharField()
-    location = LocationField(based_fields=['city'],
-                             initial=Point(-49.1607606, -22.2876834))
+    country = models.CharField()
+    state = models.CharField(max_length=50, blank=True, null=True)
+    
+    locality = models.CharField()
+    location = GeopositionField()
