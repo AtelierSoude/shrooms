@@ -72,6 +72,7 @@ class Profile(models.Model):
         max_length=255,
         blank=True
     )
+    website = models.URLField()
     # address = ????
 
 
@@ -148,9 +149,22 @@ class Organisation(Profile):
         blank=False,
         null=False
     )
+    type = models.CharField(
+        max_length=50,
+        blank=False,
+        null=False
+    )
+    contact = models.ForeignKey(
+        'Individual',
+        on_delete=models.CASCADE
+    )
+
 
 class Shroom(Organisation):
     """
     Organisation subclass that defines a Shroom identity
     """
-    pass
+    api_url = models.URLField()
+    # Shared data : use django's content_type fwk ?
+
+
