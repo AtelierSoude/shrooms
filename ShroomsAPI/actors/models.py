@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.models import Group
 from django.db import models
-
+from datetime import timedelta
 
 # Create your models here.
 
@@ -18,6 +18,11 @@ class ActorGroup(models.Model):
         'Profile',
         verbose_name='group members',
         through='GroupMembership',
+        blank=False
+    )
+    name = models.CharField(
+        max_length=50,
+        null=False,
         blank=False
     )
 
@@ -72,15 +77,20 @@ class Profile(models.Model):
         max_length=255,
         blank=True
     )
-    website = models.URLField()
+    website = models.URLField(
+        blank=True
+    )
     # address = ????
-
+    def __str__(self):
+        return self.email
 
 class Individual(Profile):
     """
     Profile subclass that contains a
     person's informations
     """
+    FEMALE = 'Femme'
+    MALE = 'Homme'
     first_name = models.CharField(
         max_length=50,
         blank=True,
@@ -97,9 +107,50 @@ class Individual(Profile):
     )
     gender = models.NullBooleanField(
         choices=(
-            (0, 'Femme'),
-            (1, 'Homme'),
+            (0, FEMALE),
+            (1, MALE),
         )
+    )
+
+    def __str__(self):
+        return "%s %s" % (self.first_name, self.last_name)
+
+
+class SubscriptionType(models.Model):
+    """
+    Contains all available subscriptions, 
+    defines duration (default=1 year), price and status
+    """
+    price = models.DecimalField(
+        max_digits=5,
+        decimal_places=2
+    )
+    duration = models.DurationField(
+        default=timedelta(days=365)
+    )
+    name = models.CharField(
+        max_length=50,
+        blank=False
+    )
+    #status = TODO
+
+    def __str__(self):
+        return '%s' % (self.name)
+
+
+class Subscription(models.Model):
+    """
+    Handles subscriptions for Adherent, including
+    status, price and validity date range.
+    """
+    adherent = models.ForeignKey(
+        'Adherent',
+        null=False,
+        blank=False
+    )
+    date_begin = models.DateField(null=False)
+    subscription_type = models.ForeignKey(
+        'SubscriptionType'
     )
 
 
@@ -108,29 +159,12 @@ class Adherent(Individual):
     Individual subclass that contains informations
     about registered adherents
     """
-    STAFF = 'Staff'
-    MEMBER = 'Adhérents'
-    STATUS = (
-        (
-            STAFF, (
-                ('Bénévole', 'Bénévole')
-            )
-        ),
-        (
-            MEMBER, (
-                ('Participant', 'Participant'),
-                ('Membre d\'honneur', 'Membre d\'honneur')
-            )
-        )
-    )
-    status = models.CharField(
-        max_length=20,
-        blank=False,
-        null=False
-    )
+
     subscription_date = models.DateField(
         auto_now_add=True,
-        null=False
+        null=False,
+        blank=True,
+        editable=False
     )
 
 
@@ -166,5 +200,3 @@ class Shroom(Organisation):
     """
     api_url = models.URLField()
     # Shared data : use django's content_type fwk ?
-
-

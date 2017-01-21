@@ -18,7 +18,17 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework.routers import DefaultRouter
 
-from users.views import *
+from users.views import (
+    UserViewSet,
+    GroupViewSet
+)
+from actors.views import(
+    IndividualViewSet,
+    AdherentViewSet,
+    SubscriptionTypeViewSet,
+    SubscriptionViewSet,
+    OrganisationViewSet
+)
 
 admin.autodiscover()
 
@@ -26,6 +36,11 @@ admin.autodiscover()
 drf_router = DefaultRouter()
 drf_router.register(r'users', UserViewSet)
 drf_router.register(r'groups', GroupViewSet)
+drf_router.register(r'individuals', IndividualViewSet)
+drf_router.register(r'adherents', AdherentViewSet)
+drf_router.register(r'subscriptions', SubscriptionViewSet)
+drf_router.register(r'subscription-types', SubscriptionTypeViewSet)
+drf_router.register(r'organisations', OrganisationViewSet)
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
