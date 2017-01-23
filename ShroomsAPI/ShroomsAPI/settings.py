@@ -50,7 +50,8 @@ AUTH_APPS = [
 
 PROJECT_APPS = [
     'users',
-    'actors'
+    'actors',
+    'adherents',
 ]
 
 INSTALLED_APPS = PROJECT_APPS + PREREQ_APPS + AUTH_APPS

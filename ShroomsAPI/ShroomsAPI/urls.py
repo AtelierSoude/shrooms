@@ -23,11 +23,12 @@ from users.views import (
     GroupViewSet
 )
 from actors.views import(
-    IndividualViewSet,
-    AdherentViewSet,
+    UserProfileViewSet,
+    OrganisationViewSet
+)
+from adherents.views import(
     SubscriptionTypeViewSet,
     SubscriptionViewSet,
-    OrganisationViewSet
 )
 
 admin.autodiscover()
@@ -36,8 +37,7 @@ admin.autodiscover()
 drf_router = DefaultRouter()
 drf_router.register(r'users', UserViewSet)
 drf_router.register(r'groups', GroupViewSet)
-drf_router.register(r'individuals', IndividualViewSet)
-drf_router.register(r'adherents', AdherentViewSet)
+drf_router.register(r'user-profiles', UserProfileViewSet)
 drf_router.register(r'subscriptions', SubscriptionViewSet)
 drf_router.register(r'subscription-types', SubscriptionTypeViewSet)
 drf_router.register(r'organisations', OrganisationViewSet)
@@ -45,7 +45,7 @@ drf_router.register(r'organisations', OrganisationViewSet)
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^activity/', include('actstream.urls')),
-    url(r'^api/', include(drf_router.urls)),
+    url(r'^api/admin/', include(drf_router.urls)),
 ]
 
 auth_patterns = [

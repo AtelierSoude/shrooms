@@ -1,21 +1,19 @@
 from django.conf import settings
 from django.contrib.auth.models import Group
 from django.db import models
-from datetime import timedelta
 
-# Create your models here.
+from allauth.account.models import EmailAddress
+from model_utils import Choices
+from model_utils.fields import StatusField
+from model_utils.managers import InheritanceManager
 
 
-class ActorGroup(models.Model):
+class BaseGroup(models.Model):
     """
     Group
     """
-    owner = models.ForeignKey(
-        'Profile',
-        related_name='owned_groups',
-        on_delete=models.CASCADE)
     members = models.ManyToManyField(
-        'Profile',
+        'UserProfile',
         verbose_name='group members',
         through='GroupMembership',
         blank=False
@@ -25,6 +23,22 @@ class ActorGroup(models.Model):
         null=False,
         blank=False
     )
+    # Django Model Utils' Inheritance manager
+    objects = InheritanceManager()
+
+    def __str__(self):
+        return self.name
+
+
+class OrganisationGroup(BaseGroup):
+    """
+    Group that represents affiliation to an organisation
+    """
+    organisation = models.ForeignKey(
+        'Organisation',
+        blank=False,
+        null=False
+    )
 
 
 class GroupMembership(models.Model):
@@ -32,41 +46,31 @@ class GroupMembership(models.Model):
     Group / Profile many-to-many relationship through model
     """
     member = models.ForeignKey(
-        'Profile',
+        'UserProfile',
         on_delete=models.CASCADE)
     group = models.ForeignKey(
-        'ActorGroup',
+        'BaseGroup',
         on_delete=models.CASCADE)
+    is_admin = models.BooleanField(
+        default=False
+    )
+
+    def __str__(self):
+        return "%s.%s [%s]" % (self.member, self.group, "Admin" if self.is_admin else "Member")
 
 
-class Profile(models.Model):
+class AbstractProfile(models.Model):
     """
     Profile is an abstract class to contain an
     individual's or organisation's informations
     """
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        verbose_name='user',
-        related_name='profile',
-        null=True,
-        blank=True
-    )
-    groups = models.ManyToManyField(
-        'ActorGroup',
-        verbose_name='groups',
-        through='GroupMembership',
-        blank=False
-    )
+
     phone_number = models.CharField(
         max_length=10,
         null=False,
         blank=True
     )
-    newsletter_subscription = models.BooleanField(default=False)
-    email = models.EmailField(
-        null=False,
-        blank=False
-    )
+
     date_created = models.DateTimeField(
         null=False,
         blank=True,
@@ -81,16 +85,31 @@ class Profile(models.Model):
         blank=True
     )
     # address = ????
-    def __str__(self):
-        return self.email
 
-class Individual(Profile):
+    class Meta:
+        abstract = True
+
+
+class UserProfile(AbstractProfile):
     """
     Profile subclass that contains a
     person's informations
     """
     FEMALE = 'Femme'
     MALE = 'Homme'
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        verbose_name='user',
+        related_name='profile',
+        null=False,
+        blank=False
+    )
+    groups = models.ManyToManyField(
+        'BaseGroup',
+        verbose_name='groups',
+        through='GroupMembership',
+        blank=False
+    )
     first_name = models.CharField(
         max_length=50,
         blank=True,
@@ -111,64 +130,16 @@ class Individual(Profile):
             (1, MALE),
         )
     )
+    newsletter_subscription = models.BooleanField(default=False)
+
+    # Django Model Utils' Inheritance manager
+    objects = InheritanceManager()
 
     def __str__(self):
         return "%s %s" % (self.first_name, self.last_name)
 
 
-class SubscriptionType(models.Model):
-    """
-    Contains all available subscriptions, 
-    defines duration (default=1 year), price and status
-    """
-    price = models.DecimalField(
-        max_digits=5,
-        decimal_places=2
-    )
-    duration = models.DurationField(
-        default=timedelta(days=365)
-    )
-    name = models.CharField(
-        max_length=50,
-        blank=False
-    )
-    #status = TODO
-
-    def __str__(self):
-        return '%s' % (self.name)
-
-
-class Subscription(models.Model):
-    """
-    Handles subscriptions for Adherent, including
-    status, price and validity date range.
-    """
-    adherent = models.ForeignKey(
-        'Adherent',
-        null=False,
-        blank=False
-    )
-    date_begin = models.DateField(null=False)
-    subscription_type = models.ForeignKey(
-        'SubscriptionType'
-    )
-
-
-class Adherent(Individual):
-    """
-    Individual subclass that contains informations
-    about registered adherents
-    """
-
-    subscription_date = models.DateField(
-        auto_now_add=True,
-        null=False,
-        blank=True,
-        editable=False
-    )
-
-
-class Organisation(Profile):
+class Organisation(AbstractProfile):
     """
     Profile subclass that contains an
     organisation's informations
@@ -188,15 +159,24 @@ class Organisation(Profile):
         blank=False,
         null=False
     )
-    contact = models.ForeignKey(
-        'Individual',
-        on_delete=models.CASCADE
+    main_contact = models.ForeignKey(
+        'UserProfile',
+        blank=True,
+        null=True
     )
+
+    # Django Model Utils' Inheritance manager
+    objects = InheritanceManager()
+
+    def __str__(self):
+        return "%s" % (self.full_name,)
 
 
 class Shroom(Organisation):
     """
     Organisation subclass that defines a Shroom identity
     """
-    api_url = models.URLField()
+    api_url = models.URLField(
+        verbose_name='API URL'
+    )
     # Shared data : use django's content_type fwk ?
