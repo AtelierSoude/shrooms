@@ -29,8 +29,10 @@ class BaseGroup(models.Model):
 
     def __str__(self):
         return self.name
+
     class Meta:
         verbose_name = _("group")
+
 
 class OrganisationGroup(BaseGroup):
     """
@@ -42,6 +44,7 @@ class OrganisationGroup(BaseGroup):
         null=False,
         verbose_name=_('organisation'),
     )
+
     class Meta:
         verbose_name = _('Organisation group')
         verbose_name_plural = _('Organisation groups')
@@ -68,11 +71,11 @@ class GroupMembership(models.Model):
 
     def __str__(self):
         return "%s.%s [%s]" % (self.member, self.group, "Admin" if self.is_admin else "Member")
-    
+
     class Meta:
         verbose_name = _('group membership')
         verbose_name_plural = _('group memberships')
-         
+
 
 class AbstractProfile(models.Model):
     """
@@ -163,9 +166,11 @@ class UserProfile(AbstractProfile):
 
     def __str__(self):
         return "%s %s" % (self.first_name, self.last_name)
-    
+
     class Meta:
         verbose_name = _("user profile")
+        verbose_name_plural = _("user profiles")
+
 
 class Organisation(AbstractProfile):
     """
@@ -203,7 +208,7 @@ class Organisation(AbstractProfile):
 
     def __str__(self):
         return "%s" % (self.full_name,)
-    
+
     class Meta:
         verbose_name = _('Organisation')
 

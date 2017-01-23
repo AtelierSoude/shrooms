@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-23 15:51+0100\n"
+"POT-Creation-Date: 2017-01-23 16:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,106 +22,110 @@ msgstr ""
 msgid "profiles"
 msgstr "profils"
 
-#: models.py:26
+#: models.py:25
 msgid "name"
 msgstr ""
 
-#: models.py:43
-msgid "organisation"
-msgstr ""
-
-#: models.py:46
-msgid "Organisation group"
-msgstr "Groupe (Organisation)"
-
-#: models.py:47
-msgid "Organisation groups"
-msgstr "Groupes (Organisations)"
-
-#: models.py:57
-msgid "member"
-msgstr "membre"
-
-#: models.py:62
+#: models.py:34 models.py:65
 msgid "group"
 msgstr "groupe"
 
-#: models.py:66
+#: models.py:45
+msgid "organisation"
+msgstr ""
+
+#: models.py:49
+msgid "Organisation group"
+msgstr "Groupe (Organisation)"
+
+#: models.py:50
+msgid "Organisation groups"
+msgstr "Groupes (Organisations)"
+
+#: models.py:60
+msgid "member"
+msgstr "membre"
+
+#: models.py:69
 msgid "is admin"
 msgstr "est admin"
 
-#: models.py:73
+#: models.py:76
 msgid "group membership"
 msgstr "Membre de groupe"
 
-#: models.py:74
+#: models.py:77
 msgid "group memberships"
 msgstr "Membres de groupes"
 
-#: models.py:87
+#: models.py:90
 msgid "phone number"
 msgstr "tél"
 
-#: models.py:95
+#: models.py:98
 msgid "date created"
 msgstr "date de création"
 
-#: models.py:100
+#: models.py:103
 msgid "about"
 msgstr "a propos"
 
-#: models.py:104
+#: models.py:107
 msgid "website"
 msgstr "site web"
 
-#: models.py:121
+#: models.py:124
 msgid "user"
 msgstr ""
 
-#: models.py:128
+#: models.py:131
 msgid "groups"
 msgstr "groupes"
 
-#: models.py:136
+#: models.py:139
 msgid "first name"
 msgstr ""
 
-#: models.py:142
+#: models.py:145
 msgid "last name"
 msgstr ""
 
-#: models.py:147
+#: models.py:150
 msgid "birth date"
 msgstr "date de naissance"
 
-#: models.py:154
+#: models.py:157
 msgid "gender"
 msgstr "genre"
 
-#: models.py:158
+#: models.py:161
 msgid "newsletter"
 msgstr "newsletter"
 
-#: models.py:168
+#: models.py:171
 msgid "user profile"
 msgstr "profil d'utilisateur"
 
-#: models.py:179
+#: models.py:172
+msgid "user profiles"
+msgstr "profils d'utilisateur"
+
+#: models.py:184
 msgid "short name"
 msgstr "nom abrégé"
 
-#: models.py:185
+#: models.py:190
 msgid "full name"
 msgstr "nom complet"
 
-#: models.py:191
+#: models.py:196
 msgid "type"
 msgstr "type"
 
-#: models.py:197
+#: models.py:203
 msgid "main contact"
 msgstr "contact principal"
 
-#: models.py:207
+#: models.py:213
 msgid "Organisation"
 msgstr ""
