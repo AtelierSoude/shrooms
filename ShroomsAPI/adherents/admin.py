@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from adherents.models import Adherent, Subscription, SubscriptionType
-from actors.admin import GroupMembershipInline
+from profiles.admin import GroupMembershipInline
 
 # Register your models here.
 
@@ -13,7 +13,7 @@ class SubscriptionInline(admin.TabularInline):
 
 @admin.register(SubscriptionType)
 class SubscriptionTypeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'duration')
+    list_display = ('name', 'status', 'price', 'duration')
 
 
 @admin.register(Subscription)

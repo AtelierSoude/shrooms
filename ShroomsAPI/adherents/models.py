@@ -1,8 +1,9 @@
-from datetime import timedelta, date
+from datetime import date, timedelta
 
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
-from actors.models import UserProfile
+from profiles.models import UserProfile
 from model_utils import Choices
 from model_utils.fields import StatusField
 
@@ -31,6 +32,7 @@ class Adherent(UserProfile):
 
     class Meta:
         proxy = True
+        verbose_name = _('adherent')
 
 
 class SubscriptionType(models.Model):
@@ -40,21 +42,29 @@ class SubscriptionType(models.Model):
     """
     price = models.DecimalField(
         max_digits=5,
-        decimal_places=2
+        decimal_places=2,
+        verbose_name=_('price'),
     )
     duration = models.DurationField(
-        default=timedelta(days=365)
+        default=timedelta(days=365),
+        verbose_name=_('duration'),
     )
     name = models.CharField(
         max_length=50,
-        blank=False
+        blank=False,
+        verbose_name=_('name')
     )
     STATUS = Choices('Actif', 'Participant')
-    status = StatusField()
+    status = StatusField(
+        verbose_name=_('status'),
+    )
 
     def __str__(self):
         return '%s [%s]' % (self.name, self.status)
 
+    class Meta:
+        verbose_name = _("subscription type")
+        verbose_name_plural = _("subscription types")
 
 class Subscription(models.Model):
     """
@@ -62,18 +72,21 @@ class Subscription(models.Model):
     status, price and validity date range.
     """
     adherent = models.ForeignKey(
-        'actors.UserProfile',
+        'profiles.UserProfile',
         null=False,
-        blank=False
+        blank=False,
+        verbose_name=_('adherent'),
     )
     date_begin = models.DateField(
         null=False,
-        auto_now_add=True
+        auto_now_add=True,
+        verbose_name=_('start date'),
     )
     subscription_type = models.ForeignKey(
         'SubscriptionType',
         null=False,
-        blank=False
+        blank=False,
+        verbose_name=_('subscription type'),
     )
 
     @property
@@ -94,4 +107,7 @@ class Subscription(models.Model):
             return False
     
     def __str__(self):
-        return "%s %s [%s]" % (self.adherent, self.date_begin, "Active" if self.is_active else "Expired")
+        return "%s %s [%s]" % (self.adherent, self.date_begin, _("Active") if self.is_active else _("Expired"))
+
+    class Meta:
+        verbose_name = _("subscription")

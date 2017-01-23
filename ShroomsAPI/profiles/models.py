@@ -1,6 +1,6 @@
 from django.conf import settings
-from django.contrib.auth.models import Group
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from allauth.account.models import EmailAddress
 from model_utils import Choices
@@ -14,31 +14,37 @@ class BaseGroup(models.Model):
     """
     members = models.ManyToManyField(
         'UserProfile',
-        verbose_name='group members',
+        verbose_name='members',
         through='GroupMembership',
-        blank=False
+        blank=False,
     )
     name = models.CharField(
         max_length=50,
         null=False,
-        blank=False
+        blank=False,
+        verbose_name=_('name'),
     )
     # Django Model Utils' Inheritance manager
     objects = InheritanceManager()
 
     def __str__(self):
         return self.name
-
+    class Meta:
+        verbose_name = _("group")
 
 class OrganisationGroup(BaseGroup):
     """
     Group that represents affiliation to an organisation
     """
-    organisation = models.ForeignKey(
+    organisation = models.OneToOneField(
         'Organisation',
         blank=False,
-        null=False
+        null=False,
+        verbose_name=_('organisation'),
     )
+    class Meta:
+        verbose_name = _('Organisation group')
+        verbose_name_plural = _('Organisation groups')
 
 
 class GroupMembership(models.Model):
@@ -47,17 +53,26 @@ class GroupMembership(models.Model):
     """
     member = models.ForeignKey(
         'UserProfile',
-        on_delete=models.CASCADE)
+        on_delete=models.CASCADE,
+        verbose_name=_('member'),
+    )
     group = models.ForeignKey(
         'BaseGroup',
-        on_delete=models.CASCADE)
+        on_delete=models.CASCADE,
+        verbose_name=_('group'),
+    )
     is_admin = models.BooleanField(
-        default=False
+        default=False,
+        verbose_name=_('is admin'),
     )
 
     def __str__(self):
         return "%s.%s [%s]" % (self.member, self.group, "Admin" if self.is_admin else "Member")
-
+    
+    class Meta:
+        verbose_name = _('group membership')
+        verbose_name_plural = _('group memberships')
+         
 
 class AbstractProfile(models.Model):
     """
@@ -68,21 +83,25 @@ class AbstractProfile(models.Model):
     phone_number = models.CharField(
         max_length=10,
         null=False,
-        blank=True
+        blank=True,
+        verbose_name=_('phone number'),
     )
 
     date_created = models.DateTimeField(
         null=False,
         blank=True,
         editable=False,
-        auto_now_add=True
+        auto_now_add=True,
+        verbose_name=_('date created'),
     )
     about = models.CharField(
         max_length=255,
-        blank=True
+        blank=True,
+        verbose_name=_('about'),
     )
     website = models.URLField(
-        blank=True
+        blank=True,
+        verbose_name=_('website'),
     )
     # address = ????
 
@@ -99,45 +118,54 @@ class UserProfile(AbstractProfile):
     MALE = 'Homme'
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        verbose_name='user',
+        verbose_name=_('user'),
         related_name='profile',
         null=False,
         blank=False
     )
     groups = models.ManyToManyField(
         'BaseGroup',
-        verbose_name='groups',
+        verbose_name=_('groups'),
         through='GroupMembership',
         blank=False
     )
     first_name = models.CharField(
         max_length=50,
         blank=True,
-        null=False
+        null=False,
+        verbose_name=_('first name'),
     )
     last_name = models.CharField(
         max_length=50,
         null=False,
-        blank=True
+        blank=True,
+        verbose_name=_('last name'),
     )
     birth_date = models.DateField(
         null=True,
-        blank=True
+        blank=True,
+        verbose_name=_('birth date'),
     )
     gender = models.NullBooleanField(
         choices=(
             (0, FEMALE),
             (1, MALE),
-        )
+        ),
+        verbose_name=_('gender'),
     )
-    newsletter_subscription = models.BooleanField(default=False)
+    newsletter_subscription = models.BooleanField(
+        default=False,
+        verbose_name=_('newsletter'),
+    )
 
     # Django Model Utils' Inheritance manager
     objects = InheritanceManager()
 
     def __str__(self):
         return "%s %s" % (self.first_name, self.last_name)
-
+    
+    class Meta:
+        verbose_name = _("user profile")
 
 class Organisation(AbstractProfile):
     """
@@ -147,22 +175,27 @@ class Organisation(AbstractProfile):
     short_name = models.CharField(
         max_length=20,
         blank=True,
-        null=False
+        null=False,
+        verbose_name=_('short name'),
     )
     full_name = models.CharField(
         max_length=50,
         blank=False,
-        null=False
+        null=False,
+        verbose_name=_('full name'),
     )
     type = models.CharField(
         max_length=50,
         blank=False,
-        null=False
+        null=False,
+        verbose_name=_('type'),
     )
+    email = models.EmailField(blank=True, null=True)
     main_contact = models.ForeignKey(
         'UserProfile',
         blank=True,
-        null=True
+        null=True,
+        verbose_name=_('main contact'),
     )
 
     # Django Model Utils' Inheritance manager
@@ -170,6 +203,9 @@ class Organisation(AbstractProfile):
 
     def __str__(self):
         return "%s" % (self.full_name,)
+    
+    class Meta:
+        verbose_name = _('Organisation')
 
 
 class Shroom(Organisation):

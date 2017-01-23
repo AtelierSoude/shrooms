@@ -1,6 +1,7 @@
 from django.contrib import admin
-from actors.models import *
-# Register your models here.
+
+from profiles.models import *
+
 admin.site.register(GroupMembership)
 
 
@@ -8,7 +9,8 @@ class GroupMembershipInline(admin.TabularInline):
     model = GroupMembership
     extra=1
 
-
+class OrganisationGroupInline(admin.TabularInline):
+    model = OrganisationGroup
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
@@ -20,10 +22,12 @@ class UserProfileAdmin(admin.ModelAdmin):
 @admin.register(Organisation, Shroom)
 class OrganisationAdmin(admin.ModelAdmin):
     list_display = ('__str__',)
-    
+    inlines = [
+        OrganisationGroupInline,
+    ]
 
     
-@admin.register(OrganisationGroup)
+@admin.register(BaseGroup,OrganisationGroup)
 class BaseGroupAdmin(admin.ModelAdmin):
     list_display = ('name',)
     inlines = [

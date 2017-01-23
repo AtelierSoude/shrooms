@@ -3,7 +3,7 @@ from rest_framework.serializers import (
     HyperlinkedRelatedField,
 )
 
-from actors.models import (
+from profiles.models import (
     UserProfile,
     Organisation
 )

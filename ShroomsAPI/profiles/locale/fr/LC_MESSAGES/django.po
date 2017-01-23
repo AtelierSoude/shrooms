@@ -1,0 +1,127 @@
+# French localization for shrooms.profiles app
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Louis Duchemin <ls.duchemin@gmail.com>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-23 15:51+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: apps.py:6
+msgid "profiles"
+msgstr "profils"
+
+#: models.py:26
+msgid "name"
+msgstr ""
+
+#: models.py:43
+msgid "organisation"
+msgstr ""
+
+#: models.py:46
+msgid "Organisation group"
+msgstr "Groupe (Organisation)"
+
+#: models.py:47
+msgid "Organisation groups"
+msgstr "Groupes (Organisations)"
+
+#: models.py:57
+msgid "member"
+msgstr "membre"
+
+#: models.py:62
+msgid "group"
+msgstr "groupe"
+
+#: models.py:66
+msgid "is admin"
+msgstr "est admin"
+
+#: models.py:73
+msgid "group membership"
+msgstr "Membre de groupe"
+
+#: models.py:74
+msgid "group memberships"
+msgstr "Membres de groupes"
+
+#: models.py:87
+msgid "phone number"
+msgstr "tél"
+
+#: models.py:95
+msgid "date created"
+msgstr "date de création"
+
+#: models.py:100
+msgid "about"
+msgstr "a propos"
+
+#: models.py:104
+msgid "website"
+msgstr "site web"
+
+#: models.py:121
+msgid "user"
+msgstr ""
+
+#: models.py:128
+msgid "groups"
+msgstr "groupes"
+
+#: models.py:136
+msgid "first name"
+msgstr ""
+
+#: models.py:142
+msgid "last name"
+msgstr ""
+
+#: models.py:147
+msgid "birth date"
+msgstr "date de naissance"
+
+#: models.py:154
+msgid "gender"
+msgstr "genre"
+
+#: models.py:158
+msgid "newsletter"
+msgstr "newsletter"
+
+#: models.py:168
+msgid "user profile"
+msgstr "profil d'utilisateur"
+
+#: models.py:179
+msgid "short name"
+msgstr "nom abrégé"
+
+#: models.py:185
+msgid "full name"
+msgstr "nom complet"
+
+#: models.py:191
+msgid "type"
+msgstr "type"
+
+#: models.py:197
+msgid "main contact"
+msgstr "contact principal"
+
+#: models.py:207
+msgid "Organisation"
+msgstr ""

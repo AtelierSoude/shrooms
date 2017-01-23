@@ -50,7 +50,7 @@ AUTH_APPS = [
 
 PROJECT_APPS = [
     'users',
-    'actors',
+    'profiles.apps.ProfilesConfig',
     'adherents',
 ]
 

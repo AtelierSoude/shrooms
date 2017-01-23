@@ -2,13 +2,13 @@ from actstream import action
 from rest_framework import generics, permissions, status, viewsets
 
 
-from actors.models import (
+from profiles.models import (
     UserProfile,
     Organisation
 )
 # from .mixins import *
 # from .forms import *
-from actors.serializers import (
+from profiles.serializers import (
     UserProfileSerializer,
     OrganisationSerializer,
 )

@@ -22,7 +22,7 @@ from users.views import (
     UserViewSet,
     GroupViewSet
 )
-from actors.views import(
+from profiles.views import(
     UserProfileViewSet,
     OrganisationViewSet
 )
