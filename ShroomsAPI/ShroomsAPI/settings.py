@@ -36,16 +36,17 @@ PREREQ_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'rest_framework',
-    'actstream',
-    'geoposition',
+    #'actstream',
+    #'geoposition',
+    'corsheaders',
 ]
 
 AUTH_APPS = [
-    'rest_framework.authtoken',
-    'rest_auth',
     'allauth',
     'allauth.account',
-    'rest_auth.registration'
+    'rest_framework.authtoken',
+    'rest_auth.registration',
+    'oauth2_provider',
 ]
 
 PROJECT_APPS = [
@@ -67,7 +68,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'oauth2_provider.middleware.OAuth2TokenMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'oauth2_provider.backends.OAuth2Backend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 ROOT_URLCONF = 'ShroomsAPI.urls'
 

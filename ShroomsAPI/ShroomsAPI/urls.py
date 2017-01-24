@@ -44,13 +44,14 @@ drf_router.register(r'organisations', OrganisationViewSet)
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^activity/', include('actstream.urls')),
+#    url(r'^activity/', include('actstream.urls')),
     url(r'^api/admin/', include(drf_router.urls)),
 ]
 
 auth_patterns = [
-    url(r'^rest-auth/', include('rest_auth.urls')),
-    url(r'^rest-auth/registration/', include('rest_auth.registration.urls'))
+    #url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^registration/', include('users.registration.urls')),
+    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]
 
 urlpatterns += auth_patterns

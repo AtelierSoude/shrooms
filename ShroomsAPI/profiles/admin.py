@@ -19,7 +19,7 @@ class UserProfileAdmin(admin.ModelAdmin):
         GroupMembershipInline,
     ]
 
-@admin.register(Organisation, Shroom)
+@admin.register(Organisation)
 class OrganisationAdmin(admin.ModelAdmin):
     list_display = ('__str__',)
     inlines = [

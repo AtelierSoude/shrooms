@@ -213,11 +213,3 @@ class Organisation(AbstractProfile):
         verbose_name = _('Organisation')
 
 
-class Shroom(Organisation):
-    """
-    Organisation subclass that defines a Shroom identity
-    """
-    api_url = models.URLField(
-        verbose_name='API URL'
-    )
-    # Shared data : use django's content_type fwk ?

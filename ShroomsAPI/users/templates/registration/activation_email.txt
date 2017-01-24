@@ -1,0 +1,3 @@
+Hello {{user.username}}, 
+Thanks for subscribing at {{site}}.
+Here's your activation key : {{activation_key}}. It will expire in {{expiration_days}}.

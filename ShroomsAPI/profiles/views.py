@@ -1,4 +1,4 @@
-from actstream import action
+#from actstream import action
 from rest_framework import generics, permissions, status, viewsets
 
 

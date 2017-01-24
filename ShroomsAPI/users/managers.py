@@ -1,4 +1,4 @@
-#users.managers.py
+'''#users.managers.py
 
 from datetime import datetime
 from django.contrib.contenttypes.models import ContentType
@@ -13,3 +13,4 @@ class MyActionManager(ActionManager):
         if time is None:
             time = datetime.now()
         return obj.actor_actions.filter(verb=verb, timestamp__lte=time)
+'''
