@@ -6,7 +6,7 @@ UserModel = get_user_model()
 
 
 @receiver(post_save, sender=UserModel)
-def create_user_profile(sender, instance, created, **kwargs):
+def activity_user_registered(sender, instance, created, **kwargs):
     """
     Create a new profile for the newly registered user
     """

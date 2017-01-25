@@ -8,7 +8,7 @@ from rest_framework.response import Response
 # from .models import *
 # from .mixins import *
 # from .forms import *
-from .serializers import (
+from users.serializers import (
     UserSerializer, GroupSerializer)
 
 

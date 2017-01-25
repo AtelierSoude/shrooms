@@ -133,12 +133,12 @@ class UserProfile(AbstractProfile):
     first_name = models.CharField(
         max_length=50,
         blank=True,
-        null=False,
+        null=True,
         verbose_name=_('first name'),
     )
     last_name = models.CharField(
         max_length=50,
-        null=False,
+        null=True,
         blank=True,
         verbose_name=_('last name'),
     )
@@ -163,7 +163,10 @@ class UserProfile(AbstractProfile):
     objects = InheritanceManager()
 
     def __str__(self):
-        return "%s %s" % (self.first_name, self.last_name)
+        if (self.first_name or self.last_name) is not None:
+            return "%s %s" % (self.first_name or "", self.last_name or "")
+        else:
+            return "%s" % self.user.username
 
     class Meta:
         verbose_name = _("user profile")

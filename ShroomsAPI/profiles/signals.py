@@ -21,4 +21,5 @@ def create_organisation_group(sender, instance, created, **kwargs):
     Create a new organisation group for the new Organisation
     """
     if created:
-        OrganisationGroup.objects.create(organisation=instance)
+        OrganisationGroup.objects.create(organisation=instance, name=instance.full_name)
+        # TODO : activity stream signal here
