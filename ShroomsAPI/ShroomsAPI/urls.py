@@ -57,6 +57,9 @@ urlpatterns += auth_patterns
 
 
 def show_urls(urllist, depth=0):
+    """
+    Print URL patterns
+    """
     for entry in urllist:
         print("\t" * depth, entry.regex.pattern)
         if hasattr(entry, 'url_patterns'):
