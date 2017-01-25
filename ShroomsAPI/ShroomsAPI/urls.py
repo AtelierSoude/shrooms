@@ -49,8 +49,7 @@ urlpatterns = [
 ]
 
 auth_patterns = [
-    #url(r'^rest-auth/', include('rest_auth.urls')),
-    url(r'^registration/', include('users.registration.urls')),
+    url(r'^auth/', include('djoser.urls.authtoken')),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]
 

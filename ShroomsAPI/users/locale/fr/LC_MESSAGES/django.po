@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-24 14:03+0100\n"
+"POT-Creation-Date: 2017-01-25 10:59+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,6 +22,9 @@ msgstr ""
 msgid "users"
 msgstr ""
 
-#: registration/views.py:139
-msgid "Invalid activation key"
-msgstr "Clé d'activation invalide"
+#: models.py:13
+msgid "email address"
+msgstr "adresse mail"
+
+#~ msgid "Invalid activation key"
+#~ msgstr "Clé d'activation invalide"

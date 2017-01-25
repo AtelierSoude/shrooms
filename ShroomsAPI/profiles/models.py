@@ -1,8 +1,6 @@
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-
-from allauth.account.models import EmailAddress
 from model_utils import Choices
 from model_utils.fields import StatusField
 from model_utils.managers import InheritanceManager

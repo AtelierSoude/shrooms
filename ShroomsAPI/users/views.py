@@ -12,11 +12,6 @@ from .serializers import (
     UserSerializer, GroupSerializer)
 
 
-# Registration and activation views
-
-
-
-
 # Admin API views
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -27,7 +22,8 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
 
-'''    def create(self, request, *args, **kwargs):
+    '''
+    def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         target = self.perform_create(serializer)
@@ -36,7 +32,8 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def perform_create(self, serializer):
-        return serializer.save()'''
+        return serializer.save()
+    '''
 
 
 class GroupViewSet(viewsets.ModelViewSet):

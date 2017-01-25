@@ -42,11 +42,9 @@ PREREQ_APPS = [
 ]
 
 AUTH_APPS = [
-    'allauth',
-    'allauth.account',
     'rest_framework.authtoken',
-    'rest_auth.registration',
     'oauth2_provider',
+    'djoser',
 ]
 
 PROJECT_APPS = [
@@ -145,17 +143,18 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAdminUser',
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
     'PAGE_SIZE': 10
 }
 
-# ALL_AUTH
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = "username"
-ACCOUNT_PRESERVE_USERNAME_CASING = False
-CCOUNT_USERNAME_BLACKLIST = [
-    "admin",
-    "administrator",
-]
-ACCOUNT_USERNAME_MIN_LENGTH = 3
-
-ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+DJOSER = {
+    # 'DOMAIN': 'frontend.com',
+    # 'SITE_NAME': 'Frontend',
+    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
+    'PASSWORD_VALIDATORS': [],
+    'SERIALIZERS': {},
+}
