@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission, Group
 
-#from actstream import action
 from rest_framework import generics, permissions, status, viewsets
 from rest_framework.response import Response
 

@@ -36,7 +36,7 @@ PREREQ_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'rest_framework',
-    #'actstream',
+    'actstream',
     #'geoposition',
     'corsheaders',
 ]

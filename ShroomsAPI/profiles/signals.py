@@ -1,3 +1,4 @@
+#from actstream import action
 from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -22,4 +23,3 @@ def create_organisation_group(sender, instance, created, **kwargs):
     """
     if created:
         OrganisationGroup.objects.create(organisation=instance, name=instance.full_name)
-        # TODO : activity stream signal here

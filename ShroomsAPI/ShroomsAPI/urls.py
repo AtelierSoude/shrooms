@@ -44,7 +44,7 @@ drf_router.register(r'organisations', OrganisationViewSet)
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-#    url(r'^activity/', include('actstream.urls')),
+    url(r'^activity/', include('actstream.urls')),
     url(r'^api/admin/', include(drf_router.urls)),
 ]
 
