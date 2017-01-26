@@ -29,10 +29,6 @@ class UserProfileSerializer(HyperlinkedModelSerializer):
     """
     Serializer for user profile
     """
-    adherent = HyperlinkedRelatedField(
-        view_name='adherent-detail',
-        read_only=True
-    )
     class Meta:
         model = UserProfile
         fields = (
@@ -45,11 +41,9 @@ class UserProfileSerializer(HyperlinkedModelSerializer):
             'groups',
             'phone_number',
             'newsletter_subscription',
-            'email',
             'date_created',
             'about',
             'website',
-            'adherent',
         )
         extra_kwargs = {
             'url': {'view_name': 'userprofile-detail'}
