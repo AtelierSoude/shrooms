@@ -5,6 +5,6 @@ from django.dispatch import receiver
 class ProfilesConfig(AppConfig):
     name = 'profiles'
     verbose_name = _("profiles")
-    
+
     def ready(self):
         import profiles.signals
