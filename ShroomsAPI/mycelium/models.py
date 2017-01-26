@@ -5,9 +5,14 @@ from profiles.models import Organisation
 
 class Shroom(models.Model):
     """
-     a Shroom identity
+    A Shroom identity
     """
     api_url = models.URLField(
         verbose_name='API URL'
+    )
+    organisation = models.OneToOneField(
+        Organisation,
+        blank=False,
+        null=False,
     )
     # Shared data : use django's content_type fwk ?
