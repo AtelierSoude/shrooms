@@ -12,7 +12,7 @@ class BaseGroup(models.Model):
     """
     members = models.ManyToManyField(
         'UserProfile',
-        verbose_name='members',
+        verbose_name=_('members'),
         through='GroupMembership',
         blank=False,
     )
@@ -24,6 +24,16 @@ class BaseGroup(models.Model):
     )
     # Django Model Utils' Inheritance manager
     objects = InheritanceManager()
+
+    def has_member(self, profile):
+        """
+        Check if a profile is a member of group.
+        """
+        try:
+            self.members.get(pk=profile.pk)
+            return True
+        except UserProfile.DoesNotExist:
+            return False
 
     def __str__(self):
         return self.name
@@ -161,6 +171,23 @@ class UserProfile(AbstractProfile):
 
     # Django Model Utils' Inheritance manager
     objects = InheritanceManager()
+
+    @property
+    def has_name_info(self):
+        """
+        Check if profile has first and last name
+        """
+        return False if (self.first_name or self.last_name) is None else True
+
+    def is_group_member(self, group):
+        """
+        Check if profile is a member of group
+        """
+        try:
+            self.groups.get(pk=group.pk)
+            return True
+        except BaseGroup.DoesNotExist:
+            return False
 
     def __str__(self):
         if (self.first_name or self.last_name) is not None:
