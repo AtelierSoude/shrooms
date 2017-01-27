@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from model_utils import Choices
 from model_utils.fields import StatusField
 from model_utils.managers import InheritanceManager
+from profiles.validators import validate_is_self
 
 
 class BaseGroup(models.Model):
@@ -231,13 +232,42 @@ class Organisation(AbstractProfile):
         verbose_name=_('main contact'),
     )
 
-    # Django Model Utils' Inheritance manager
-    objects = InheritanceManager()
-
     def __str__(self):
         return "%s" % (self.full_name,)
 
     class Meta:
         verbose_name = _('Organisation')
 
+class ShroomManager(models.Manager):
+    "Custom manager for Shroom"
+    def get_self(self):
+        "Shortcut for retrieving the shroom defining self"
+        return self.get_queryset().filter(is_self=True)
 
+class Shroom(models.Model):
+    """
+    A Shroom identity
+    """
+    api_url = models.URLField(
+        verbose_name=_('API URL')
+    )
+    organisation = models.OneToOneField(
+        Organisation,
+        blank=False,
+        null=False,
+    )
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        verbose_name=_('user'),
+        related_name='shroom',
+        null=False,
+        blank=False
+    )
+    is_self = models.BooleanField(
+        _('Set this shroom and organisation as self'),
+        default=False,
+        validators=[validate_is_self],
+    )
+    
+    objects = ShroomManager
+    # Shared data : use django's content_type fwk ?

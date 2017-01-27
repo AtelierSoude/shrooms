@@ -1,18 +1,8 @@
 from django.db import models
+from django.conf import settings
 from profiles.models import Organisation
+from django.utils.translation import ugettext_lazy as _
 
 # Create your models here.
 
-class Shroom(models.Model):
-    """
-    A Shroom identity
-    """
-    api_url = models.URLField(
-        verbose_name='API URL'
-    )
-    organisation = models.OneToOneField(
-        Organisation,
-        blank=False,
-        null=False,
-    )
-    # Shared data : use django's content_type fwk ?
+
