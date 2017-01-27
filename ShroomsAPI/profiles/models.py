@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from model_utils import Choices
 from model_utils.fields import StatusField
 from model_utils.managers import InheritanceManager
-from profiles.validators import validate_is_self
+import profiles.validators as validators
 
 
 class BaseGroup(models.Model):
@@ -272,7 +272,7 @@ class Shroom(models.Model):
     is_self = models.BooleanField(
         _('Set this shroom and organisation as self'),
         default=False,
-        validators=[validate_is_self],
+        validators=[validators.validate_is_self],
     )
     
     objects = ShroomManager
