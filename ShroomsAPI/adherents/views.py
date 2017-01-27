@@ -9,6 +9,19 @@ from adherents.serializers import (SubscriptionSerializer,
 # Create your views here.
 
 
+
+class SubscribeView(generics.CreateAPIView):
+    """
+    Authenticated user with valid user profile may subscribe here
+    """
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = Subscription.objects.all()
+    serializer_class = SubscriptionSerializer
+
+
+"""
+Admin viewsets
+"""
 class SubscriptionTypeViewSet(viewsets.ModelViewSet):
     """
     Subscription types viewset

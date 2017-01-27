@@ -17,13 +17,13 @@ class AdherentGroup(BaseGroup):
     """
     status = models.CharField(
         max_length=50,
-        verbose_name = _('status'),
+        verbose_name=_('status'),
         null=False,
         blank=False,
     )
 
     def __str__(self):
-        return "%s [%s]" % (self.name,self.status)
+        return "%s [%s]" % (self.name, self.status)
 
 
 class AdherentManager(models.Manager):
@@ -37,7 +37,7 @@ class AdherentManager(models.Manager):
 
     def active(self):
         "Retrieve all adherents with a currently active subscription"
-        return self.get_queryset().filter(subscription__is_active=True)
+        return self.get_queryset().filter(subscription__in=Subscription.objects.active())
 
 
 class Adherent(UserProfile):
@@ -45,6 +45,10 @@ class Adherent(UserProfile):
     UserProfile proxy model for adherents
     """
     objects = AdherentManager()
+
+    def active_subscriptions(self):
+        "Returns all currently active subscriptions for the adherent"
+        return Subscription.objects.active().filter(adherent=self)
 
     class Meta:
         proxy = True
@@ -74,9 +78,8 @@ class SubscriptionType(models.Model):
         'AdherentGroup',
         blank=False,
         null=False,
-        verbose_name = _('group')
+        verbose_name=_('group')
     )
-
 
     def __str__(self):
         return '%s [%s]' % (self.name, self.group.name)
@@ -85,6 +88,16 @@ class SubscriptionType(models.Model):
         verbose_name = _("subscription type")
         verbose_name_plural = _("subscription types")
 
+
+class SubscriptionManager(models.Manager):
+    def active(self):
+        today = date.today()
+        return self.get_queryset().filter(date_begin__lt=today).annotate(
+            expiration_date=models.ExpressionWrapper(
+                models.F('date_begin')+models.F('subscription_type__duration'),
+                output_field=models.DateField()
+            )
+        ).filter(expiration_date__gt=today)
 
 class Subscription(models.Model):
     """
@@ -112,22 +125,24 @@ class Subscription(models.Model):
     @property
     def date_end(self):
         """
-        Returns the calculated expiration date for the subscription
+        Get the calculated expiration date for the subscription
         from the subscription type
         """
         return self.date_begin + self.subscription_type.duration
 
     @property
     def is_active(self):
-        "Returns the current state for the subscription"
+        "Get the current state for the subscription"
         today = date.today()
         if self.date_begin <= today and self.date_end >= today:
             return True
         else:
             return False
-    
+
     def __str__(self):
         return "%s %s [%s]" % (self.adherent, self.date_begin, _("Active") if self.is_active else _("Expired"))
+
+    objects = SubscriptionManager()
 
     class Meta:
         verbose_name = _("subscription")
