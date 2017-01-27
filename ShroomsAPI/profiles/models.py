@@ -22,6 +22,12 @@ class BaseGroup(models.Model):
         blank=False,
         verbose_name=_('name'),
     )
+    description = models.CharField(
+        max_length=500,
+        null=False,
+        blank=True,
+        verbose_name=_('description')
+    )
     # Django Model Utils' Inheritance manager
     objects = InheritanceManager()
 

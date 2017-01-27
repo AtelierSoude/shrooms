@@ -11,4 +11,3 @@ are imported from the django registration project
 class User(AbstractUser):
     REQUIRED_FIELDS = ['email', ]
     email = models.EmailField(_('email address'), blank=False, null=False)
-    pass

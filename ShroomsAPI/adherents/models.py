@@ -3,12 +3,28 @@ from datetime import date, timedelta
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from profiles.models import UserProfile
+from profiles.models import UserProfile, BaseGroup
 from model_utils import Choices
 from model_utils.fields import StatusField
 
 
 # Create your models here.
+
+
+class AdherentGroup(BaseGroup):
+    """
+    Group extension for managing adherent statuses
+    """
+    status = models.CharField(
+        max_length=50,
+        verbose_name = _('status'),
+        null=False,
+        blank=False,
+    )
+
+    def __str__(self):
+        return "%s [%s]" % (self.name,self.status)
+
 
 class AdherentManager(models.Manager):
     """
@@ -54,17 +70,21 @@ class SubscriptionType(models.Model):
         blank=False,
         verbose_name=_('name')
     )
-    STATUS = Choices('Actif', 'Participant')
-    status = StatusField(
-        verbose_name=_('status'),
+    group = models.ForeignKey(
+        'AdherentGroup',
+        blank=False,
+        null=False,
+        verbose_name = _('group')
     )
 
+
     def __str__(self):
-        return '%s [%s]' % (self.name, self.status)
+        return '%s [%s]' % (self.name, self.group.name)
 
     class Meta:
         verbose_name = _("subscription type")
         verbose_name_plural = _("subscription types")
+
 
 class Subscription(models.Model):
     """

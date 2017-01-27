@@ -13,4 +13,5 @@ class MyActionManager(ActionManager):
         if time is None:
             time = datetime.now()
         return obj.actor_actions.filter(verb=verb, timestamp__lte=time)
+
 '''
