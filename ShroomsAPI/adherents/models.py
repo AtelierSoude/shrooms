@@ -4,11 +4,9 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from profiles.models import UserProfile, BaseGroup
-from model_utils import Choices
-from model_utils.fields import StatusField
+# from model_utils import Choices
+# from model_utils.fields import StatusField
 
-
-# Create your models here.
 
 
 class AdherentGroup(BaseGroup):
@@ -90,7 +88,11 @@ class SubscriptionType(models.Model):
 
 
 class SubscriptionManager(models.Manager):
+    """
+    Manager for subscription
+    """
     def active(self):
+        "Get currently active subscriptions"
         today = date.today()
         return self.get_queryset().filter(date_begin__lt=today).annotate(
             expiration_date=models.ExpressionWrapper(
@@ -140,7 +142,9 @@ class Subscription(models.Model):
             return False
 
     def __str__(self):
-        return "%s %s [%s]" % (self.adherent, self.date_begin, _("Active") if self.is_active else _("Expired"))
+        return "%s %s [%s]" % (
+            self.adherent,
+            self.date_begin, _("Active") if self.is_active else _("Expired"))
 
     objects = SubscriptionManager()
 

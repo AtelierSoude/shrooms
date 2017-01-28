@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-23 16:03+0100\n"
+"POT-Creation-Date: 2017-01-27 19:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,46 +18,54 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: models.py:35 models.py:78
-msgid "adherent"
-msgstr "adhérent"
-
-#: models.py:46
-msgid "price"
-msgstr "prix"
-
-#: models.py:50
-msgid "duration"
-msgstr "durée"
-
-#: models.py:55
-msgid "name"
-msgstr ""
-
-#: models.py:59
+#: adherents/models.py:18
 msgid "status"
 msgstr "statut"
 
-#: models.py:66 models.py:89
+#: adherents/models.py:53 adherents/models.py:113
+msgid "adherent"
+msgstr "adhérent"
+
+#: adherents/models.py:64
+msgid "price"
+msgstr "prix"
+
+#: adherents/models.py:68
+msgid "duration"
+msgstr "durée"
+
+#: adherents/models.py:73
+msgid "name"
+msgstr ""
+
+#: adherents/models.py:79
+msgid "group"
+msgstr ""
+
+#: adherents/models.py:86 adherents/models.py:124
 msgid "subscription type"
 msgstr "type d'adhésion"
 
-#: models.py:67
+#: adherents/models.py:87
 msgid "subscription types"
 msgstr "types d'adhésion"
 
-#: models.py:83
+#: adherents/models.py:118
 msgid "start date"
 msgstr "date de début"
 
-#: models.py:110
+#: adherents/models.py:147
 msgid "Active"
 msgstr "active"
 
-#: models.py:110
+#: adherents/models.py:147
 msgid "Expired"
 msgstr "expirée"
 
-#: models.py:113
+#: adherents/models.py:152
 msgid "subscription"
 msgstr "adhésion"
+
+#: adherents/signals.py:16
+msgid "subscribed"
+msgstr "a adhéré"
