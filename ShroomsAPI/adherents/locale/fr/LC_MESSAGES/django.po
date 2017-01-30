@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-27 19:03+0100\n"
+"POT-Creation-Date: 2017-01-30 11:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,54 +18,60 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: adherents/models.py:18
-msgid "status"
-msgstr "statut"
-
-#: adherents/models.py:53 adherents/models.py:113
-msgid "adherent"
-msgstr "adhérent"
-
-#: adherents/models.py:64
-msgid "price"
-msgstr "prix"
-
-#: adherents/models.py:68
-msgid "duration"
-msgstr "durée"
-
-#: adherents/models.py:73
+#: adherents/models.py:19 adherents/models.py:77
 msgid "name"
 msgstr ""
 
-#: adherents/models.py:79
-msgid "group"
-msgstr ""
+#: adherents/models.py:28
+msgid "adherent's status"
+msgstr "statut d'adhérent"
 
-#: adherents/models.py:86 adherents/models.py:124
+#: adherents/models.py:29
+msgid "adherents' statuses"
+msgstr "statuts des adhérents"
+
+#: adherents/models.py:57 adherents/models.py:117
+msgid "adherent"
+msgstr "adhérent"
+
+#: adherents/models.py:68
+msgid "price"
+msgstr "prix"
+
+#: adherents/models.py:72
+msgid "duration"
+msgstr "durée"
+
+#: adherents/models.py:90 adherents/models.py:128
 msgid "subscription type"
 msgstr "type d'adhésion"
 
-#: adherents/models.py:87
+#: adherents/models.py:91
 msgid "subscription types"
 msgstr "types d'adhésion"
 
-#: adherents/models.py:118
+#: adherents/models.py:122
 msgid "start date"
 msgstr "date de début"
 
-#: adherents/models.py:147
+#: adherents/models.py:151
 msgid "Active"
 msgstr "active"
 
-#: adherents/models.py:147
+#: adherents/models.py:151
 msgid "Expired"
 msgstr "expirée"
 
-#: adherents/models.py:152
+#: adherents/models.py:156
 msgid "subscription"
 msgstr "adhésion"
 
 #: adherents/signals.py:16
 msgid "subscribed"
 msgstr "a adhéré"
+
+#~ msgid "status"
+#~ msgstr "statut"
+
+#~ msgid "adherents group"
+#~ msgstr "groupe d'adhérents"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-27 19:03+0100\n"
+"POT-Creation-Date: 2017-01-30 11:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr ""
 msgid "description"
 msgstr ""
 
-#: profiles/models.py:49 profiles/models.py:80
+#: profiles/models.py:49 profiles/models.py:80 profiles/models.py:106
 msgid "group"
 msgstr "groupe"
 
@@ -50,99 +50,107 @@ msgstr "Groupe (Organisation)"
 msgid "Organisation groups"
 msgstr "Groupes (Organisation)"
 
-#: profiles/models.py:75
+#: profiles/models.py:76 profiles/models.py:90 profiles/models.py:116
+msgid "role"
+msgstr "rôle"
+
+#: profiles/models.py:81 profiles/models.py:91
+msgid "roles"
+msgstr "rôles"
+
+#: profiles/models.py:101
 msgid "member"
 msgstr "membre"
 
-#: profiles/models.py:84
+#: profiles/models.py:110
 msgid "is admin"
 msgstr "est admin"
 
-#: profiles/models.py:91
+#: profiles/models.py:124
 msgid "group membership"
 msgstr "Membre de groupe"
 
-#: profiles/models.py:92
+#: profiles/models.py:125
 msgid "group memberships"
 msgstr "Membres de groupes"
 
-#: profiles/models.py:105
+#: profiles/models.py:138
 msgid "phone number"
 msgstr "tél"
 
-#: profiles/models.py:113
+#: profiles/models.py:146
 msgid "date created"
 msgstr "date de création"
 
-#: profiles/models.py:118
+#: profiles/models.py:151
 msgid "about"
 msgstr "a propos"
 
-#: profiles/models.py:122
+#: profiles/models.py:155
 msgid "website"
 msgstr "site web"
 
-#: profiles/models.py:139 profiles/models.py:267
+#: profiles/models.py:172 profiles/models.py:303
 msgid "user"
 msgstr ""
 
-#: profiles/models.py:146
+#: profiles/models.py:179
 msgid "groups"
 msgstr "groupes"
 
-#: profiles/models.py:154
+#: profiles/models.py:187
 msgid "first name"
 msgstr ""
 
-#: profiles/models.py:160
+#: profiles/models.py:193
 msgid "last name"
 msgstr ""
 
-#: profiles/models.py:165
+#: profiles/models.py:198
 msgid "birth date"
 msgstr "date de naissance"
 
-#: profiles/models.py:172
+#: profiles/models.py:205
 msgid "gender"
 msgstr "genre"
 
-#: profiles/models.py:176
+#: profiles/models.py:209
 msgid "newsletter"
 msgstr "newsletter"
 
-#: profiles/models.py:206
+#: profiles/models.py:239
 msgid "user profile"
 msgstr "profil d'utilisateur"
 
-#: profiles/models.py:207
+#: profiles/models.py:240
 msgid "user profiles"
 msgstr "profils d'utilisateur"
 
-#: profiles/models.py:219
+#: profiles/models.py:252
 msgid "short name"
 msgstr "nom abrégé"
 
-#: profiles/models.py:225
+#: profiles/models.py:258
 msgid "full name"
 msgstr "nom complet"
 
-#: profiles/models.py:231
+#: profiles/models.py:264
 msgid "type"
 msgstr "type"
 
-#: profiles/models.py:238
+#: profiles/models.py:271
 msgid "main contact"
 msgstr "contact principal"
 
-#: profiles/models.py:245
+#: profiles/models.py:278
 msgid "Organisation"
 msgstr ""
 
-#: profiles/models.py:258
+#: profiles/models.py:294
 msgid "API URL"
 msgstr ""
 
-#: profiles/models.py:273
+#: profiles/models.py:310
 msgid "Set this shroom and organisation as self"
 msgstr "Ce shroom représente mon organisation"
 
