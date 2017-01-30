@@ -3,8 +3,9 @@ from datetime import date, timedelta
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.functional import cached_property
+from django.utils import timezone
 
-from profiles.models import UserProfile, BaseGroup
+from profiles.models import UserProfile
 # from model_utils import Choices
 # from model_utils.fields import StatusField
 
@@ -50,14 +51,15 @@ class Adherent(UserProfile):
     objects = AdherentManager()
 
     @cached_property
-    def active_subscriptions(self):
-        "Returns all currently active subscriptions for the adherent"
-        return Subscription.objects.active().filter(adherent=self)
+    def active_subscription(self):
+        "Returns  currently active subscription for the adherent"
+        today = date.today()
+        return self.subscriptions.filter(date_end__gte=today, date_begin__lte=today)
 
     @cached_property
     def status(self):
         "Adherent instance's status based on currently active subscription"
-        return [sub.subscription_type.status for sub in self.active_subscriptions]
+        return self.active_subscription.subscription_type.status
 
     class Meta:
         proxy = True
@@ -144,8 +146,14 @@ class Subscription(models.Model):
     )
     date_begin = models.DateField(
         null=False,
-        auto_now_add=True,
+        blank=True,
+        default=timezone.now,
         verbose_name=_('start date'),
+    )
+    date_end = models.DateField(
+        null=False,
+        blank=True,
+        verbose_name=_('expiration date')
     )
     subscription_type = models.ForeignKey(
         'SubscriptionType',
@@ -154,13 +162,10 @@ class Subscription(models.Model):
         verbose_name=_('subscription type'),
     )
 
-    @cached_property
-    def date_end(self):
-        """
-        Get the calculated expiration date for the subscription
-        from the subscription type
-        """
-        return self.date_begin + self.subscription_type.duration
+    def save(self, *args, **kwargs):
+        if self.date_end is None:
+            self.date_end = self.date_begin + self.subscription_type.duration
+        super(Subscription, self).save(*args, **kwargs)
 
     @cached_property
     def is_active(self):
