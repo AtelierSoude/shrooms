@@ -172,6 +172,13 @@ class Subscription(models.Model):
             self.date_end = self.date_begin + self.subscription_type.duration
         super(Subscription, self).save(*args, **kwargs)
 
+    def overlaps(self, overlapping_date):
+        "Checks if a date interval overlaps with subscription date interval"
+        if overlapping_date <= self.date_end and overlapping_date >= self.date_begin:
+            return True
+        else:
+            return False
+
     @cached_property
     def is_active(self):
         "Get the current state for the subscription"
