@@ -65,6 +65,32 @@ class OrganisationGroup(BaseGroup):
         verbose_name_plural = _('Organisation groups')
 
 
+class GroupRole(models.Model):
+    """
+    Add role information to group membership
+    """
+    name = models.CharField(
+        max_length=50,
+        null=True,
+        blank=False,
+        verbose_name=_('role')
+    )
+    group = models.ForeignKey(
+        'BaseGroup',
+        verbose_name=_('group'),
+        related_name=_('roles'),
+        null=False,
+        blank=False
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _('role')
+        verbose_name_plural = _('roles')
+
+
 class GroupMembership(models.Model):
     """
     Group / Profile many-to-many relationship through model
@@ -82,6 +108,13 @@ class GroupMembership(models.Model):
     is_admin = models.BooleanField(
         default=False,
         verbose_name=_('is admin'),
+    )
+    role = models.ForeignKey(
+        'GroupRole',
+        null=True,
+        blank=True,
+        verbose_name=_('role'),
+        related_name='group_members'
     )
 
     def __str__(self):
@@ -244,11 +277,14 @@ class Organisation(AbstractProfile):
     class Meta:
         verbose_name = _('Organisation')
 
+
 class ShroomManager(models.Manager):
     "Custom manager for Shroom"
+
     def get_self(self):
         "Shortcut for retrieving the shroom defining self"
         return self.get_queryset().filter(is_self=True)
+
 
 class Shroom(models.Model):
     """
@@ -267,13 +303,14 @@ class Shroom(models.Model):
         verbose_name=_('user'),
         related_name='shroom',
         null=False,
-        blank=False
+        blank=False,
+        on_delete=models.CASCADE
     )
     is_self = models.BooleanField(
         _('Set this shroom and organisation as self'),
         default=False,
         validators=[validators.validate_is_self],
     )
-    
+
     objects = ShroomManager
     # Shared data : use django's content_type fwk ?

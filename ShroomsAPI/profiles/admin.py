@@ -41,3 +41,8 @@ class BaseGroupAdmin(admin.ModelAdmin):
 @admin.register(Shroom)
 class ShroomAdmin(admin.ModelAdmin):
     list_display = ('organisation', 'user', 'api_url', 'is_self')
+
+
+@admin.register(GroupRole)
+class GroupRoleAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'group')
