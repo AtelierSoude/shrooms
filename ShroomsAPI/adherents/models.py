@@ -155,6 +155,11 @@ class Subscription(models.Model):
         blank=True,
         verbose_name=_('expiration date')
     )
+    time_created = models.DateTimeField(
+        null=False,
+        auto_now_add=True,
+        verbose_name=_('time created')
+    )
     subscription_type = models.ForeignKey(
         'SubscriptionType',
         null=False,
