@@ -1,6 +1,7 @@
 #from actstream import action
 from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
+from django.core.exceptions import ObjectDoesNotExist
 from django.dispatch import receiver
 from profiles.models import Organisation, OrganisationGroup, UserProfile
 
@@ -12,8 +13,13 @@ def create_user_profile(sender, instance, created, **kwargs):
     """
     Create a new profile for the newly registered user
     """
-    if created:
-        UserProfile.objects.create(user=instance)
+    try:
+        shroom = instance.shroom
+        pass
+    except ObjectDoesNotExist:
+        if created:
+            UserProfile.objects.create(user=instance)
+
 
 
 @receiver(post_save, sender=Organisation)
