@@ -2,6 +2,7 @@ from datetime import date, timedelta
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.functional import cached_property
 
 from profiles.models import UserProfile, BaseGroup
 # from model_utils import Choices
@@ -9,20 +10,23 @@ from profiles.models import UserProfile, BaseGroup
 
 
 
-class AdherentGroup(BaseGroup):
+class AdherentStatus(models.Model):
     """
     Group extension for managing adherent statuses
     """
-    status = models.CharField(
+    name = models.CharField(
         max_length=50,
-        verbose_name=_('status'),
+        verbose_name=_('name'),
         null=False,
         blank=False,
     )
 
     def __str__(self):
-        return "%s [%s]" % (self.name, self.status)
+        return "%s" % (self.name,)
 
+    class Meta:
+        verbose_name = _('adherent\'s status')
+        verbose_name_plural = _('adherents\' statuses')
 
 class AdherentManager(models.Manager):
     """
@@ -72,15 +76,15 @@ class SubscriptionType(models.Model):
         blank=False,
         verbose_name=_('name')
     )
-    group = models.ForeignKey(
-        'AdherentGroup',
+    status = models.ForeignKey(
+        'AdherentStatus',
         blank=False,
         null=False,
-        verbose_name=_('group')
     )
 
+
     def __str__(self):
-        return '%s [%s]' % (self.name, self.group.name)
+        return '%s [%s]' % (self.name, self.status)
 
     class Meta:
         verbose_name = _("subscription type")
@@ -124,7 +128,7 @@ class Subscription(models.Model):
         verbose_name=_('subscription type'),
     )
 
-    @property
+    @cached_property
     def date_end(self):
         """
         Get the calculated expiration date for the subscription
@@ -132,7 +136,7 @@ class Subscription(models.Model):
         """
         return self.date_begin + self.subscription_type.duration
 
-    @property
+    @cached_property
     def is_active(self):
         "Get the current state for the subscription"
         today = date.today()

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from adherents.models import Adherent, Subscription, SubscriptionType, AdherentGroup
+from adherents.models import Adherent, Subscription, SubscriptionType, AdherentStatus
 from profiles.admin import GroupMembershipInline
 
 # Register your models here.
@@ -11,13 +11,13 @@ class SubscriptionInline(admin.TabularInline):
     extra=1
 
 
-@admin.register(AdherentGroup)
-class AdherentGroupAdmin(admin.ModelAdmin):
-    list_display = ('name', 'status')
+@admin.register(AdherentStatus)
+class AdherentStatusAdmin(admin.ModelAdmin):
+    list_display = ('name',)
 
 @admin.register(SubscriptionType)
 class SubscriptionTypeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'duration', 'group')
+    list_display = ('name', 'price', 'duration', 'status')
 
 
 @admin.register(Subscription)
