@@ -9,7 +9,6 @@ from profiles.models import UserProfile, BaseGroup
 # from model_utils.fields import StatusField
 
 
-
 class AdherentStatus(models.Model):
     """
     Group extension for managing adherent statuses
@@ -28,6 +27,7 @@ class AdherentStatus(models.Model):
         verbose_name = _('adherent\'s status')
         verbose_name_plural = _('adherents\' statuses')
 
+
 class AdherentManager(models.Manager):
     """
     Manager for proxy model Adherent
@@ -35,11 +35,12 @@ class AdherentManager(models.Manager):
 
     def get_queryset(self):
         "Retrieve all adherents : any UserProfile that has Subscription"
-        return super(AdherentManager, self).get_queryset().exclude(subscription=None)
+        return super(AdherentManager, self).get_queryset().exclude(
+            subscriptions=None)
 
     def active(self):
         "Retrieve all adherents with a currently active subscription"
-        return self.get_queryset().filter(subscription__in=Subscription.objects.active())
+        return self.get_queryset().filter(subscriptions__in=Subscription.objects.active())
 
 
 class Adherent(UserProfile):
@@ -48,13 +49,29 @@ class Adherent(UserProfile):
     """
     objects = AdherentManager()
 
+    @cached_property
     def active_subscriptions(self):
         "Returns all currently active subscriptions for the adherent"
         return Subscription.objects.active().filter(adherent=self)
 
+    @cached_property
+    def status(self):
+        "Adherent instance's status based on currently active subscription"
+        return [sub.subscription_type.status for sub in self.active_subscriptions]
+
     class Meta:
         proxy = True
         verbose_name = _('adherent')
+
+
+class SubscriptionTypeManager(models.Manager):
+    """
+    Manager for subscription types
+    """
+
+    def get_queryset(self):
+        "Prefetch foreign key status"
+        return super(SubscriptionTypeManager, self).get_queryset().select_related('status')
 
 
 class SubscriptionType(models.Model):
@@ -82,6 +99,7 @@ class SubscriptionType(models.Model):
         null=False,
     )
 
+    objects = SubscriptionTypeManager()
 
     def __str__(self):
         return '%s [%s]' % (self.name, self.status)
@@ -95,15 +113,22 @@ class SubscriptionManager(models.Manager):
     """
     Manager for subscription
     """
+
+    def get_queryset(self):
+        "Prefetch subscription type along with subscription"
+        return super(SubscriptionManager, self).get_queryset().select_related('subscription_type__status')
+
     def active(self):
         "Get currently active subscriptions"
         today = date.today()
-        return self.get_queryset().filter(date_begin__lt=today).annotate(
+        return self.get_queryset().filter(date_begin__lte=today).annotate(
             expiration_date=models.ExpressionWrapper(
-                models.F('date_begin')+models.F('subscription_type__duration'),
+                models.F('date_begin') +
+                models.F('subscription_type__duration'),
                 output_field=models.DateField()
             )
-        ).filter(expiration_date__gt=today)
+        ).filter(expiration_date__gte=today)
+
 
 class Subscription(models.Model):
     """
@@ -115,6 +140,7 @@ class Subscription(models.Model):
         null=False,
         blank=False,
         verbose_name=_('adherent'),
+        related_name='subscriptions'
     )
     date_begin = models.DateField(
         null=False,
