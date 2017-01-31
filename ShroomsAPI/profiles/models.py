@@ -1,10 +1,10 @@
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from model_utils import Choices
-from model_utils.fields import StatusField
-from model_utils.managers import InheritanceManager
+
 import profiles.validators as validators
+from model_utils.managers import InheritanceManager
+from profiles.managers import ShroomManager
 
 
 class BaseGroup(models.Model):
@@ -278,12 +278,7 @@ class Organisation(AbstractProfile):
         verbose_name = _('Organisation')
 
 
-class ShroomManager(models.Manager):
-    "Custom manager for Shroom"
 
-    def get_self(self):
-        "Shortcut for retrieving the shroom defining self"
-        return self.get_queryset().filter(is_self=True)
 
 
 class Shroom(models.Model):
