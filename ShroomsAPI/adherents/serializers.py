@@ -38,9 +38,19 @@ class SubscriptionTypeSerializer(serializers.HyperlinkedModelSerializer):
         )
 
         extra_kwargs = {
-            'url': {'view_name': 'subscriptiontype-detail'}
+            'url': {'view_name': 'admin-api:subscriptiontype-detail'}
         }
 
+class ReadOnlySubscriptionSerializer(serializers.ModelSerializer):
+    """
+    Read-only Subscription serializer
+    Includes nested SubscriptionType serializer
+    """
+    class Meta:
+        model=Subscription
+        fields='__all__'
+        read_only_fields=('adherent', 'date_begin', 'date_end', 'time_created', 'subscription_type')
+        depth=1
 
 class SubscriptionSerializer(serializers.HyperlinkedModelSerializer):
     """
@@ -80,7 +90,9 @@ class SubscriptionSerializer(serializers.HyperlinkedModelSerializer):
         )
 
         extra_kwargs = {
-            'url': {'view_name': 'subscription-detail'}
+            'url': {'view_name': 'admin-api:subscription-detail'},
+            'adherent': {'view_name': 'admin-api:userprofile-detail'},
+            'subscription_type': {'view_name': 'admin-api:subscriptiontype-detail'},
         }
 
     def get_is_active(self, obj):

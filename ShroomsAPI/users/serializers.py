@@ -36,7 +36,7 @@ class UserSerializer(HyperlinkedModelSerializer):
             'user_permissions',
         )
         extra_kwargs = {
-            'url': {'view_name': 'user-detail'}
+            'url': {'view_name': 'admin-api:user-detail'}
         }
 
 class GroupSerializer(HyperlinkedModelSerializer):
@@ -49,5 +49,5 @@ class GroupSerializer(HyperlinkedModelSerializer):
         model = Group
         fields = ('name', 'permissions')
         extra_kwargs = {
-            'url': {'view_name': 'group-detail'}
+            'url': {'view_name': 'admin-api:group-detail'}
         }

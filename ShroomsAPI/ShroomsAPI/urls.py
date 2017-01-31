@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+
 from django.conf import settings
 from django.conf.urls import url, include
 from django.contrib import admin
@@ -24,11 +25,14 @@ from users.views import (
 )
 from profiles.views import(
     UserProfileViewSet,
-    OrganisationViewSet
+    OrganisationViewSet,
+    ProfileGroupViewSet
 )
 from adherents.views import(
     SubscriptionTypeViewSet,
     SubscriptionViewSet,
+    UserSubscriptionViewset,
+    SubscribeView,
 )
 
 admin.autodiscover()
@@ -37,16 +41,21 @@ admin.autodiscover()
 drf_router = DefaultRouter()
 drf_router.register(r'users', UserViewSet)
 drf_router.register(r'groups', GroupViewSet)
-drf_router.register(r'user-profiles', UserProfileViewSet)
+drf_router.register(r'profiles', UserProfileViewSet)
+drf_router.register(r'profile-groups', ProfileGroupViewSet)
 drf_router.register(r'subscriptions', SubscriptionViewSet)
 drf_router.register(r'subscription-types', SubscriptionTypeViewSet)
 drf_router.register(r'organisations', OrganisationViewSet)
 
+user_router = DefaultRouter()
+user_router.register(r'subscriptions', UserSubscriptionViewset)
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^activity/', include('actstream.urls')),
-    url(r'^api/admin/', include(drf_router.urls)),
-    url(r'^api/subscriptions/', include('adherents.urls')),
+    url(r'^admin-api/', include(drf_router.urls, namespace='admin-api')),
+    url(r'^me/', include(user_router.urls)),
+    url(r'^me/subscribe/', SubscribeView.as_view(), name='subscribe'),
 ]
 
 auth_patterns = [

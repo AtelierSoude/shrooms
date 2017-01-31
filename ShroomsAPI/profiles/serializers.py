@@ -5,7 +5,8 @@ from rest_framework.serializers import (
 
 from profiles.models import (
     UserProfile,
-    Organisation
+    Organisation,
+    BaseGroup,
 )
 
 """
@@ -46,7 +47,9 @@ class UserProfileSerializer(HyperlinkedModelSerializer):
             'website',
         )
         extra_kwargs = {
-            'url': {'view_name': 'userprofile-detail'}
+            'url': {'view_name': 'admin-api:userprofile-detail'},
+            'user': {'view_name': 'admin-api:user-detail'},
+            'groups': {'view_name': 'admin-api:basegroup-detail'},
         }
 
 class OrganisationSerializer(HyperlinkedModelSerializer):
@@ -68,5 +71,24 @@ class OrganisationSerializer(HyperlinkedModelSerializer):
             'website',
         )
         extra_kwargs = {
-            'url': {'view_name': 'organisation-detail'}
+            'url': {'view_name': 'admin-api:organisation-detail'},
+            'main_contact': {'view_name': 'admin-api:userprofile-detail'},
+        }
+
+
+class BaseGroupSerializer(HyperlinkedModelSerializer):
+    """
+    Organisation model serializer
+    """
+    class Meta:
+        model = BaseGroup
+        fields = (
+            'url',
+            'members',
+            'name',
+            'description',
+        )
+        extra_kwargs = {
+            'url': {'view_name': 'admin-api:basegroup-detail'},
+            'members': {'view_name': 'admin-api:userprofile-detail'},
         }
