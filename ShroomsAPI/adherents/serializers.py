@@ -53,8 +53,8 @@ class SubscriptionSerializer(serializers.HyperlinkedModelSerializer):
             adh = Adherent.objects.get(pk=data['adherent'].pk)
             date_end = getattr(data, 'date_end', None) or data[
                 'date_begin'] + data['subscription_type'].duration
-            error_str = _("This date overlaps with existing subscription for this adherent."
-                          "You may explicitly set the subscription's date interval to avoid overlapping subscriptions")
+            error_str = _("This date overlaps with existing subscription for this adherent. "
+                          "You may explicitly set the subscription's date interval to avoid overlapping subscriptions.")
 
             for subscription in adh.subscriptions.all():
                 if subscription.overlaps(data['date_begin']):

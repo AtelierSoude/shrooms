@@ -22,7 +22,7 @@ class SubscriptionTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'adherent', 'date_begin', 'subscription_type', 'date_end', 'is_active')
+    list_display = ('__str__', 'adherent', 'subscription_type', 'date_begin', 'date_end', 'is_active')
 
 @admin.register(Adherent)
 class AdherentAdmin(admin.ModelAdmin):

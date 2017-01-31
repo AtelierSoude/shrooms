@@ -143,9 +143,9 @@ class Subscription(models.Model):
             return False
 
     def __str__(self):
-        return "%s %s [%s]" % (
+        return "%s : %s" % (
             self.adherent,
-            self.date_begin, _("Active") if self.is_active else _("Expired"))
+            self.subscription_type)
 
     objects = managers.SubscriptionManager()
 
