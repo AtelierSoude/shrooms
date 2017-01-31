@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, permissions, status, viewsets
 
 from adherents.models import Subscription, SubscriptionType
-from adherents.serializers import (SubscriptionSerializer,
+from adherents.serializers import (SubscribeSerializer, SubscriptionSerializer,
                                    SubscriptionTypeSerializer)
 
 
@@ -16,7 +16,7 @@ class SubscribeView(generics.CreateAPIView):
     """
     permission_classes = (permissions.IsAuthenticated,)
     queryset = Subscription.objects.all()
-    serializer_class = SubscriptionSerializer
+    serializer_class = SubscribeSerializer
 
 
 """

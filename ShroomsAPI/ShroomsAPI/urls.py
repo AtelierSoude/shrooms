@@ -46,6 +46,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^activity/', include('actstream.urls')),
     url(r'^api/admin/', include(drf_router.urls)),
+    url(r'^api/subscriptions/', include('adherents.urls')),
 ]
 
 auth_patterns = [

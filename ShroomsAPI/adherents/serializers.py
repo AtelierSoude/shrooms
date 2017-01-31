@@ -67,14 +67,6 @@ class SubscriptionSerializer(serializers.HyperlinkedModelSerializer):
         except Adherent.DoesNotExist:
             return data
 
-    def validate_adherent(self, value):
-        "Check that adherent's user profile provide sufficient informations"
-        if value.has_name_info is False:
-            raise serializers.ValidationError(
-                _("Incomplete user profile : please provide first and last name "
-                  "to be allowed to subscribe.")
-            )
-        return value
 
     class Meta:
         model = Subscription
@@ -93,3 +85,33 @@ class SubscriptionSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_is_active(self, obj):
         return obj.is_active
+
+
+class CurrentProfileDefault(object):
+    "Allows setting current user profile as default in subscription serializer"
+    profile = None
+    def set_context(self, serializer_field):
+        "Get current user profile"
+        self.profile = serializer_field.context['request'].user.profile
+
+    def __call__(self):
+        return self.profile
+
+    def __repr__(self):
+        return '%s()' % self.__class__.__name__
+
+class SubscribeSerializer(SubscriptionSerializer):
+    "Subscribe serializer, sets current user as subscribing user"
+
+    adherent = serializers.HiddenField(
+        default=CurrentProfileDefault()
+    )
+
+    def validate_adherent(self, value):
+        "Check that adherent's user profile provide sufficient informations"
+        if value.has_name_info is False:
+            raise serializers.ValidationError(
+                _("Incomplete user profile : please provide first and last name "
+                  "to be allowed to subscribe.")
+            )
+        return value
