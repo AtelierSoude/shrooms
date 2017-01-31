@@ -6,7 +6,7 @@ from django.utils.functional import cached_property
 from django.utils import timezone
 
 from profiles.models import UserProfile
-from adherents.managers import AdherentManager, SubscriptionManager, SubscriptionTypeManager
+from adherents import managers
 
 
 
@@ -33,7 +33,7 @@ class Adherent(UserProfile):
     """
     UserProfile proxy model for adherents
     """
-    objects = AdherentManager()
+    objects = managers.AdherentManager()
 
     @cached_property
     def active_subscription(self):
@@ -76,7 +76,7 @@ class SubscriptionType(models.Model):
         null=False,
     )
 
-    objects = SubscriptionTypeManager()
+    objects = managers.SubscriptionTypeManager()
 
     def __str__(self):
         return '%s [%s]' % (self.name, self.status)
@@ -147,7 +147,7 @@ class Subscription(models.Model):
             self.adherent,
             self.date_begin, _("Active") if self.is_active else _("Expired"))
 
-    objects = SubscriptionManager()
+    objects = managers.SubscriptionManager()
 
     class Meta:
         verbose_name = _("subscription")

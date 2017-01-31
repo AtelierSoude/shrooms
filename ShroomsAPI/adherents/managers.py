@@ -2,7 +2,7 @@ from datetime import date
 
 from django.db import models
 
-from adherents.models import Subscription
+from adherents import models as adh_models
 
 
 class AdherentManager(models.Manager):
@@ -17,7 +17,7 @@ class AdherentManager(models.Manager):
 
     def active(self):
         "Retrieve all adherents with a currently active subscription"
-        return self.get_queryset().filter(subscriptions__in=Subscription.objects.active())
+        return self.get_queryset().filter(subscriptions__in=adh_models.Subscription.objects.active())
 
 class SubscriptionManager(models.Manager):
     """

@@ -50,7 +50,6 @@ class SubscriptionSerializer(serializers.HyperlinkedModelSerializer):
 
     def validate(self, data):
         try:
-            print(data)
             adh = Adherent.objects.get(pk=data['adherent'].pk)
             date_end = getattr(data, 'date_end', None) or data[
                 'date_begin'] + data['subscription_type'].duration
@@ -67,6 +66,15 @@ class SubscriptionSerializer(serializers.HyperlinkedModelSerializer):
                 return data
         except Adherent.DoesNotExist:
             return data
+
+    def validate_adherent(self, value):
+        "Check that adherent's user profile provide sufficient informations"
+        if value.has_name_info is False:
+            raise serializers.ValidationError(
+                _("Incomplete user profile : please provide first and last name "
+                  "to be allowed to subscribe.")
+            )
+        return value
 
     class Meta:
         model = Subscription
