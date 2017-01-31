@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-30 11:26+0100\n"
+"POT-Creation-Date: 2017-01-31 10:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,7 +90,7 @@ msgstr "a propos"
 msgid "website"
 msgstr "site web"
 
-#: profiles/models.py:172 profiles/models.py:303
+#: profiles/models.py:172 profiles/models.py:298
 msgid "user"
 msgstr ""
 
@@ -146,11 +146,11 @@ msgstr "contact principal"
 msgid "Organisation"
 msgstr ""
 
-#: profiles/models.py:294
+#: profiles/models.py:289
 msgid "API URL"
 msgstr ""
 
-#: profiles/models.py:310
+#: profiles/models.py:305
 msgid "Set this shroom and organisation as self"
 msgstr "Ce shroom représente mon organisation"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-30 11:26+0100\n"
+"POT-Creation-Date: 2017-01-31 10:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: adherents/models.py:19 adherents/models.py:77
+#: adherents/models.py:19 adherents/models.py:71
 msgid "name"
 msgstr ""
 
@@ -30,41 +30,67 @@ msgstr "statut d'adhérent"
 msgid "adherents' statuses"
 msgstr "statuts des adhérents"
 
-#: adherents/models.py:57 adherents/models.py:117
+#: adherents/models.py:51 adherents/models.py:98
 msgid "adherent"
 msgstr "adhérent"
 
-#: adherents/models.py:68
+#: adherents/models.py:62
 msgid "price"
 msgstr "prix"
 
-#: adherents/models.py:72
+#: adherents/models.py:66
 msgid "duration"
 msgstr "durée"
 
-#: adherents/models.py:90 adherents/models.py:128
+#: adherents/models.py:85 adherents/models.py:121
 msgid "subscription type"
 msgstr "type d'adhésion"
 
-#: adherents/models.py:91
+#: adherents/models.py:86
 msgid "subscription types"
 msgstr "types d'adhésion"
 
-#: adherents/models.py:122
+#: adherents/models.py:105
 msgid "start date"
 msgstr "date de début"
 
-#: adherents/models.py:151
+#: adherents/models.py:110
+msgid "expiration date"
+msgstr "date d'expiration"
+
+#: adherents/models.py:115
+msgid "time created"
+msgstr "date de création"
+
+#: adherents/models.py:148
 msgid "Active"
 msgstr "active"
 
-#: adherents/models.py:151
+#: adherents/models.py:148
 msgid "Expired"
 msgstr "expirée"
 
-#: adherents/models.py:156
+#: adherents/models.py:153
 msgid "subscription"
 msgstr "adhésion"
+
+#: adherents/serializers.py:56
+msgid ""
+"This date overlaps with existing subscription for this adherent. You may "
+"explicitly set the subscription's date interval to avoid overlapping "
+"subscriptions."
+msgstr ""
+"Cette date est comprise dans une adhésion existante pour cet adhérent. Vous "
+"pouvez spécifier des dates différentes pour éviter le chevauchements "
+"d'adhésions."
+
+#: adherents/serializers.py:74
+msgid ""
+"Incomplete user profile : please provide first and last name to be allowed "
+"to subscribe."
+msgstr ""
+"Profil d'utilisateur incomplet : veuillez renseigner votre nom et prénom "
+"pour pouvoir adhérer."
 
 #: adherents/signals.py:16
 msgid "subscribed"
