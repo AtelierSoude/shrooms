@@ -20,6 +20,7 @@ class UserShortSerializer(ModelSerializer):
     class Meta:
         model = get_user_model()
         fields= (
+            'url',
             'id',
             'username',
             'email',
@@ -32,7 +33,8 @@ class UserSerializer(HyperlinkedModelSerializer):
     """
     Serializer pour le modèle User
     """
-
+    user_permissions = PrimaryKeyRelatedField(
+        queryset=Permission.objects.all(), many=True)
     class Meta:
         model = get_user_model()
         fields = (
@@ -46,9 +48,11 @@ class UserSerializer(HyperlinkedModelSerializer):
             'date_joined',
             'groups',
             'user_permissions',
+            'profile'
         )
         extra_kwargs = {
-            'url': {'view_name': 'user-detail'}
+            'url': {'view_name': 'user-detail'},
+            'profile' : {'view_name' : 'userprofile-detail'}
         }
 
 class GroupSerializer(HyperlinkedModelSerializer):

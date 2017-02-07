@@ -42,7 +42,7 @@ PREREQ_APPS = [
 ]
 
 AUTH_APPS = [
-    'rest_framework.authtoken',
+    #'rest_framework.authtoken',
     'oauth2_provider',
     'djoser',
 ]
@@ -53,20 +53,24 @@ PROJECT_APPS = [
     'adherents',
 ]
 
-INSTALLED_APPS = PROJECT_APPS + PREREQ_APPS + AUTH_APPS
+DEV_APPS = [
+    'django_extensions'
+]
+
+INSTALLED_APPS = PROJECT_APPS + PREREQ_APPS + AUTH_APPS + DEV_APPS
 
 AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'oauth2_provider.middleware.OAuth2TokenMiddleware',
 ]
 
@@ -161,5 +165,7 @@ DJOSER = {
 }
 
 JWT_AUTH = {
-    'JWT_RESPONSE_PAYLOAD_HANDLER' : 'users.utils.jwt_response_payload_handler',
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'users.utils.jwt_response_payload_handler',
 }
+
+

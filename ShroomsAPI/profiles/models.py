@@ -58,6 +58,7 @@ class OrganisationGroup(BaseGroup):
         blank=False,
         null=False,
         verbose_name=_('organisation'),
+        related_name='organisation_group'
     )
 
     class Meta:
