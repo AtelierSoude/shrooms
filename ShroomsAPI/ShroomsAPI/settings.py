@@ -141,10 +141,10 @@ LOGOUT_ON_PASSWORD_CHANGE = False
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAdminUser',
+        'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
     'PAGE_SIZE': 10
@@ -158,4 +158,8 @@ DJOSER = {
     'SEND_ACTIVATION_EMAIL': True,
     'PASSWORD_VALIDATORS': [],
     'SERIALIZERS': {},
+}
+
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER' : 'users.utils.jwt_response_payload_handler',
 }

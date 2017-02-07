@@ -15,51 +15,55 @@ Including another URLconf
 """
 
 from django.conf import settings
-from django.conf.urls import url, include
+from django.conf.urls import include, url
 from django.contrib import admin
-from rest_framework.routers import DefaultRouter
 
-from users.views import (
-    UserViewSet,
-    GroupViewSet
-)
-from profiles.views import(
-    UserProfileViewSet,
-    OrganisationViewSet,
-    ProfileGroupViewSet
-)
-from adherents.views import(
-    SubscriptionTypeViewSet,
-    SubscriptionViewSet,
-    UserSubscriptionViewset,
-    SubscribeView,
-)
+
+from adherents.views import (SubscribeView, SubscriptionTypeViewSet,
+                             SubscriptionViewSet, UserSubscriptionViewset)
+
+from profiles.views import (AdminOrganisationViewSet, AdminProfileGroupViewSet,
+                            AdminUserProfileViewSet, ProfileViewSet)
+from rest_framework_extensions.routers import ExtendedDefaultRouter
+from users.views import GroupViewSet, UserViewSet
+
+
+
 
 admin.autodiscover()
 
 
-drf_router = DefaultRouter()
+drf_router = ExtendedDefaultRouter()
+# users app
 drf_router.register(r'users', UserViewSet)
 drf_router.register(r'groups', GroupViewSet)
-drf_router.register(r'profiles', UserProfileViewSet)
-drf_router.register(r'profile-groups', ProfileGroupViewSet)
+# profiles app
+drf_router.register(r'profiles', AdminUserProfileViewSet)
+drf_router.register(r'profile-groups', AdminProfileGroupViewSet)
+drf_router.register(r'organisations', AdminOrganisationViewSet)
+# adherents app
 drf_router.register(r'subscriptions', SubscriptionViewSet)
 drf_router.register(r'subscription-types', SubscriptionTypeViewSet)
-drf_router.register(r'organisations', OrganisationViewSet)
 
-user_router = DefaultRouter()
-user_router.register(r'subscriptions', UserSubscriptionViewset)
+
+user_router = ExtendedDefaultRouter()
+user_router.register(r'profile', ProfileViewSet, base_name='profile').register(
+    r'subscriptions', UserSubscriptionViewset, base_name='user-subscriptions', parents_query_lookups=['adherent'])
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^activity/', include('actstream.urls')),
-    url(r'^admin-api/', include(drf_router.urls, namespace='admin-api')),
-    url(r'^me/', include(user_router.urls)),
-    url(r'^me/subscribe/', SubscribeView.as_view(), name='subscribe'),
+    #url(r'^admin-api/', include(drf_router.urls)),
+    #url(r'^me/', include(user_router.urls)),
+    url(r'^api/subscribe/', SubscribeView.as_view(), name='subscribe'),
+    url(r'^api/', include(user_router.urls, namespace='profile')),
+    #url(r'^api/', include(profile_router.urls)),
 ]
 
 auth_patterns = [
-    url(r'^auth/', include('djoser.urls.authtoken')),
+    # Djoser + JWT
+    url(r'^auth/', include('users.urls')),
+    #OAuth
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]
 
@@ -74,7 +78,6 @@ def show_urls(urllist, depth=0):
         print("\t" * depth, entry.regex.pattern)
         if hasattr(entry, 'url_patterns'):
             show_urls(entry.url_patterns, depth + 1)
-
 
 
 # Show urls at start-up during development

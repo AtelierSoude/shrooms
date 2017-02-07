@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission, Group
-from rest_framework.serializers import HyperlinkedModelSerializer, PrimaryKeyRelatedField
+from rest_framework.serializers import HyperlinkedModelSerializer, PrimaryKeyRelatedField, ModelSerializer
 
 """
 FIELDS
@@ -13,13 +13,25 @@ SERIALIZERS
 
 """
 
+class UserShortSerializer(ModelSerializer):
+    """
+    Short serializer for user
+    """
+    class Meta:
+        model = get_user_model()
+        fields= (
+            'id',
+            'username',
+            'email',
+        )
+        extra_kwargs = {
+            'url': {'view_name': 'user-detail'}
+        }
 
 class UserSerializer(HyperlinkedModelSerializer):
     """
     Serializer pour le modèle User
     """
-    user_permissions = PrimaryKeyRelatedField(
-        queryset=Permission.objects.all(), many=True)
 
     class Meta:
         model = get_user_model()
@@ -36,7 +48,7 @@ class UserSerializer(HyperlinkedModelSerializer):
             'user_permissions',
         )
         extra_kwargs = {
-            'url': {'view_name': 'admin-api:user-detail'}
+            'url': {'view_name': 'user-detail'}
         }
 
 class GroupSerializer(HyperlinkedModelSerializer):
@@ -49,5 +61,5 @@ class GroupSerializer(HyperlinkedModelSerializer):
         model = Group
         fields = ('name', 'permissions')
         extra_kwargs = {
-            'url': {'view_name': 'admin-api:group-detail'}
+            'url': {'view_name': 'group-detail'}
         }
