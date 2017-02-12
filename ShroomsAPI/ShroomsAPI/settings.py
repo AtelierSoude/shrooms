@@ -39,7 +39,7 @@ PREREQ_APPS = [
     'actstream',
     #'geoposition',
     'corsheaders',
-    'rules.apps.AutodiscoverRulesConfig'
+    'dry_rest_permissions'
 ]
 
 AUTH_APPS = [
