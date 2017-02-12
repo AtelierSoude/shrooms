@@ -13,13 +13,14 @@ SERIALIZERS
 
 """
 
+
 class UserShortSerializer(ModelSerializer):
     """
     Short serializer for user
     """
     class Meta:
         model = get_user_model()
-        fields= (
+        fields = (
             'url',
             'id',
             'username',
@@ -29,31 +30,36 @@ class UserShortSerializer(ModelSerializer):
             'url': {'view_name': 'user-detail'}
         }
 
+
 class UserSerializer(HyperlinkedModelSerializer):
     """
     Serializer pour le modèle User
     """
     user_permissions = PrimaryKeyRelatedField(
         queryset=Permission.objects.all(), many=True)
+
     class Meta:
         model = get_user_model()
         fields = (
             'url',
-            'last_login',
-            'is_superuser',
+            'id',
             'username',
             'email',
+            'profile',
+            'last_login',
+            'is_superuser',
             'is_staff',
             'is_active',
             'date_joined',
             'groups',
-            'user_permissions',
-            'profile'
+            'user_permissions'
         )
         extra_kwargs = {
             'url': {'view_name': 'user-detail'},
-            'profile' : {'view_name' : 'userprofile-detail'}
+            'profile': {'view_name': 'userprofile-detail'}
         }
+        read_only_fields = ('id',)
+
 
 class GroupSerializer(HyperlinkedModelSerializer):
     """
@@ -61,6 +67,7 @@ class GroupSerializer(HyperlinkedModelSerializer):
     """
     permissions = PrimaryKeyRelatedField(
         queryset=Permission.objects.all(), many=True)
+
     class Meta:
         model = Group
         fields = ('name', 'permissions')

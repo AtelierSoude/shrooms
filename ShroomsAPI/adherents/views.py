@@ -7,9 +7,9 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework_extensions.mixins import NestedViewSetMixin
 from adherents.models import Adherent, Subscription, SubscriptionType
-from adherents.serializers import (ProfileSubscriptionSerializer,
-                                   SubscribeSerializer, SubscriptionSerializer,
-                                   SubscriptionTypeSerializer)
+from adherents.serializers import (
+    SubscribeSerializer, SubscriptionSerializer,
+    SubscriptionTypeSerializer)
 from django.contrib.auth import get_user_model
 
 USERNAME_FIELD = get_user_model().USERNAME_FIELD
@@ -18,6 +18,7 @@ USERNAME_FIELD = get_user_model().USERNAME_FIELD
 API views
 """
 
+
 class SubscribeView(generics.CreateAPIView):
     """
     Authenticated user with valid user profile may subscribe here
@@ -25,7 +26,7 @@ class SubscribeView(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     queryset = Subscription.objects.all()
     serializer_class = SubscribeSerializer
-    
+
 """
 Admin viewsets
 """

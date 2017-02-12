@@ -4,6 +4,8 @@ from django.contrib.auth.models import Permission, Group
 from rest_framework import generics, permissions, status, viewsets
 from rest_framework.response import Response
 
+from dry_rest_permissions.generics import DRYPermissions
+
 # from .models import *
 # from .mixins import *
 # from .forms import *
@@ -17,7 +19,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     Users viewset
     """
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (DRYPermissions,)
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
 
