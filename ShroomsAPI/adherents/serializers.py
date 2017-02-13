@@ -3,8 +3,9 @@ from datetime import date
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 
-from adherents.models import Subscription, SubscriptionType
-from adherents.mixins import SubscriptionSerializerMixin
+from users.serializers import UserShortSerializer
+from adherents.models import Subscription, SubscriptionType, Adherent
+from adherents.mixins import SubscriptionSerializerMixin, AdherentSerializerMixin
 
 """
 FIELDS
@@ -16,6 +17,57 @@ FIELDS
 SERIALIZERS
 
 """
+
+class AdherentShortSerializer(AdherentSerializerMixin, serializers.HyperlinkedModelSerializer):
+    """
+    Short serializer for user profile
+    """
+
+    class Meta:
+        model = Adherent
+        fields = [
+            'url',
+            'pk',
+            'user',
+            'status',
+            'first_name',
+            'last_name',
+            'about',
+            'website',
+        ]
+        extra_kwargs = {
+            'url': {'view_name': 'adherent-detail'},
+        }
+        read_only_fields = ('pk', 'user',)
+
+class AdherentSerializer(AdherentSerializerMixin, serializers.HyperlinkedModelSerializer):
+    """
+    Serializer for user profile
+    """
+    class Meta:
+        model = Adherent
+        fields = [
+            'url',
+            'pk',
+            'user',
+            'status',
+            'first_name',
+            'last_name',
+            'birth_date',
+            'gender',
+            'groups',
+            'phone_number',
+            'newsletter_subscription',
+            'date_created',
+            'about',
+            'website',
+        ]
+        extra_kwargs = {
+            'url': {'view_name': 'adherent-detail'},
+            'groups': {'view_name': 'basegroup-detail'},
+        }
+        read_only_fields = ('pk', 'user', 'date_created')
+
 
 class SubscriptionTypeSerializer(serializers.HyperlinkedModelSerializer):
     """
