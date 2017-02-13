@@ -11,7 +11,6 @@ from profiles.models import UserProfile
 from adherents import managers
 
 
-
 class AdherentStatus(models.Model):
     """
     Group extension for managing adherent statuses
@@ -98,7 +97,7 @@ class SubscriptionType(models.Model):
 
     def has_object_read_permission(self, request):
         return True
-    
+
     @allow_staff_or_superuser
     def has_object_write_permission(self, request):
         return False
@@ -170,6 +169,28 @@ class Subscription(models.Model):
             self.subscription_type)
 
     objects = managers.SubscriptionManager()
+
+    """
+    DRY permissions
+    """
+
+    @staticmethod
+    @allow_staff_or_superuser
+    def has_write_permission(request):
+        return False
+
+    @staticmethod
+    @authenticated_users
+    def has_read_permission(request):
+        return True
+
+    @authenticated_users
+    def has_object_read_permission(self, request):
+        return True
+
+    @allow_staff_or_superuser
+    def has_object_write_permission(self, request):
+        return False
 
     class Meta:
         verbose_name = _("subscription")
