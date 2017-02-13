@@ -9,35 +9,36 @@ are imported from the django registration project
 
 
 class User(AbstractUser):
+    """
+    Subclass of Django User model
+    """
     REQUIRED_FIELDS = ['email', ]
     email = models.EmailField(_('email address'), blank=False, null=False)
 
-    # DRY permissions
-    
+    """
+    DRY permissions :
+    Users API endpoint may be read by any auth User
+    Write operations are reserved to admins.
+    """
 
     @staticmethod
     @allow_staff_or_superuser
     def has_write_permission(request):
+        "Lock all writing access except for admin"
         return False
 
-    @staticmethod
     @allow_staff_or_superuser
-    def has_read_permission(request):
+    def has_object_write_permission(self, request):
+        "Lock object writing except for admin"
         return False
-    
+
     @staticmethod
     @authenticated_users
-    def has_retrieve_permission(request):
+    def has_read_permission(request):
+        "Allow read access for auth users"
         return True
-    
+
+    @authenticated_users
     def has_object_read_permission(self, request):
-        return request.user == self
-    
-    def has_object_update_permission(self, request):
-        return request.user == self
-    
-    @allow_staff_or_superuser
-    def has_object_destroy_permission(self, request):
-        return False
-
-
+        "Allow object read access for auth users"
+        return True
