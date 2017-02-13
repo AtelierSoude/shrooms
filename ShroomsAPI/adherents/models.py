@@ -45,7 +45,7 @@ class Adherent(UserProfile):
     @cached_property
     def status(self):
         "Adherent instance's status based on currently active subscription"
-        return self.active_subscription.subscription_type.status
+        return self.active_subscription.subscription_type.status.name
 
     class Meta:
         proxy = True
