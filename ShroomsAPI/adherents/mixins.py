@@ -2,6 +2,7 @@ from adherents.models import Adherent
 from rest_framework import serializers
 from django.utils.translation import ugettext_lazy as _
 from datetime import date
+from users.serializers import UserShortSerializer
 
 class SubscriptionSerializerMixin(object):
     """
@@ -30,3 +31,15 @@ class SubscriptionSerializerMixin(object):
                 return data
         except Adherent.DoesNotExist:
             return data
+
+class AdherentSerializerMixin(object):
+    """
+    Mixin for serializing Adherent
+    Provides status field and serialized user informations
+    """
+    user = UserShortSerializer(read_only=True)
+    status = serializers.SerializerMethodField()
+
+    def get_status(self, obj):
+        "Getter for status field"
+        return obj.status
