@@ -4,6 +4,8 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.functional import cached_property
 from django.utils import timezone
+from dry_rest_permissions.generics import (allow_staff_or_superuser,
+                                           authenticated_users)
 
 from profiles.models import UserProfile
 from adherents import managers
@@ -80,6 +82,26 @@ class SubscriptionType(models.Model):
 
     def __str__(self):
         return '%s [%s]' % (self.name, self.status)
+
+    """
+    DRY permissions
+    """
+
+    @staticmethod
+    def has_read_permission(request):
+        return True
+
+    @staticmethod
+    @allow_staff_or_superuser
+    def has_write_permission(request):
+        return False
+
+    def has_object_read_permission(self, request):
+        return True
+    
+    @allow_staff_or_superuser
+    def has_object_write_permission(self, request):
+        return False
 
     class Meta:
         verbose_name = _("subscription type")
