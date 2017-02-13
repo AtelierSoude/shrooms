@@ -15,6 +15,9 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['email', ]
     email = models.EmailField(_('email address'), blank=False, null=False)
 
+    def __str__(self):
+        return "@%s" % self.username
+
     """
     DRY permissions :
     Users API endpoint may be read by any auth User

@@ -1,43 +1,35 @@
 #from actstream import action
-from rest_framework import generics, permissions, status, viewsets
-from rest_framework_extensions.mixins import NestedViewSetMixin
 from django.contrib.auth import get_user_model
-
-from profiles.models import (
-    UserProfile,
-    Organisation,
-    BaseGroup,
-    OrganisationGroup
-)
+from profiles.models import (BaseGroup, Organisation, OrganisationGroup,
+                             UserProfile)
 # from .mixins import *
 # from .forms import *
-from profiles.serializers import (
-    UserProfileSerializer,
-    OrganisationSerializer,
-    BaseGroupSerializer,
-    OrganisationGroupSerializer
-)
+from profiles.serializers import (BaseGroupSerializer,
+                                  OrganisationGroupSerializer,
+                                  OrganisationSerializer,
+                                  UserProfileSerializer,
+                                  UserProfileShortSerializer)
+from rest_framework import generics, permissions, status, viewsets
+from rest_framework.response import Response
+from rest_framework_extensions.mixins import NestedViewSetMixin
 
 
-
-
-class ProfileViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+class ProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = UserProfileSerializer
+    serializer_class = UserProfileShortSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.user == request.user or request.user.is_staff or request.user.is_superuser:
+            serializer = UserProfileSerializer(instance, context={'request': request})
+        else:
+            serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 """
 Admin API views
 """
-
-
-class UserProfileViewSet(viewsets.ModelViewSet):
-    """
-    Users viewset
-    """
-    permission_classes = (permissions.IsAdminUser,)
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
 
 
 class ProfileGroupViewSet(viewsets.ModelViewSet):

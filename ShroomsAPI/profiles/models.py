@@ -1,8 +1,9 @@
+import profiles.validators as validators
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-
-import profiles.validators as validators
+from dry_rest_permissions.generics import (allow_staff_or_superuser,
+                                           authenticated_users)
 from model_utils.managers import InheritanceManager
 from profiles.managers import ShroomManager
 
@@ -207,14 +208,14 @@ class UserProfile(AbstractProfile):
     )
     newsletter_subscription = models.BooleanField(
         default=False,
-        verbose_name=_('newsletter'),
+        verbose_name=_('subscribed to newsletter'),
     )
 
     # Django Model Utils' Inheritance manager
     objects = InheritanceManager()
 
     @property
-    def has_name_info(self):
+    def can_subscribe(self):
         """
         Check if profile has first and last name
         """
@@ -234,7 +235,38 @@ class UserProfile(AbstractProfile):
         if (self.first_name or self.last_name) is not None:
             return "%s %s" % (self.first_name or "", self.last_name or "")
         else:
-            return "%s" % self.user.username
+            return "@%s" % self.user.username
+
+    """
+    DRY Permissions
+    """
+
+    @staticmethod
+    @allow_staff_or_superuser
+    def has_write_permission(request):
+        "Disable write access except for admins"
+        return False
+
+    @staticmethod
+    @authenticated_users
+    def has_read_permission(request):
+        "Allow read access to auth users"
+        return True
+
+    @authenticated_users
+    def has_object_read_permission(self, request):
+        "Allow object read access to auth users"
+        return True
+
+    @allow_staff_or_superuser
+    def has_object_write_permission(self, request):
+        "Disable object write access except for admins"
+        return False
+
+    @allow_staff_or_superuser
+    def has_object_update_permission(self, request):
+        "Auth user may update their own profile"
+        return self.user == request.user
 
     class Meta:
         verbose_name = _("user profile")
@@ -277,9 +309,6 @@ class Organisation(AbstractProfile):
 
     class Meta:
         verbose_name = _('Organisation')
-
-
-
 
 
 class Shroom(models.Model):

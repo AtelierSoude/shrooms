@@ -34,18 +34,34 @@ All fields serializers
 Used for Admin API endpoints
 """
 
+class UserProfileShortSerializer(HyperlinkedModelSerializer):
+    """
+    Short serializer for user profile
+    """
+    user = UserShortSerializer(read_only=True)
+    class Meta:
+        model = UserProfile
+        fields = [
+            'url',
+            'pk',
+            'user',
+            'first_name',
+            'last_name',
+            'about',
+            'website',
+        ]
+
 class UserProfileSerializer(HyperlinkedModelSerializer):
     """
     Serializer for user profile
     """
-    user = UserShortSerializer()
+    user = UserShortSerializer(read_only=True)
     '''if 'adherents' in settings.INSTALLED_APPS:
         subscriptions = HyperlinkedRelatedField(
             read_only=True,
             view_name = 'profile-subscription'
         )'''
     class Meta:
-        NAMESPACE = ''
         model = UserProfile
         fields = [
             'url',
