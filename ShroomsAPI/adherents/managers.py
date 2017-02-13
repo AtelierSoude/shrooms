@@ -12,7 +12,10 @@ class AdherentManager(models.Manager):
 
     def get_queryset(self):
         "Retrieve all adherents : any UserProfile that has Subscription"
-        return super(AdherentManager, self).get_queryset().exclude(
+        return super(AdherentManager, self).get_queryset().select_related('user')
+
+    def subscribers(self):
+        return self.get_queryset().exclude(
             subscriptions=None)
 
     def active(self):
