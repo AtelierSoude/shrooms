@@ -219,7 +219,7 @@ class UserProfile(AbstractProfile):
         """
         Check if profile has first and last name
         """
-        return False if (self.first_name or self.last_name) is None else True
+        return False if (self.first_name and self.last_name) is None else True
 
     def is_group_member(self, group):
         """

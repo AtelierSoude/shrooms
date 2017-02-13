@@ -85,7 +85,7 @@ class SubscribeSerializer(SubscriptionSerializerMixin, serializers.ModelSerializ
 
     def validate_adherent(self, value):
         "Check that adherent's user profile provide sufficient informations"
-        if value.has_name_info is False:
+        if value.can_subscribe is False:
             raise serializers.ValidationError(
                 _("Incomplete user profile : please provide first and last name "
                   "to be allowed to subscribe.")

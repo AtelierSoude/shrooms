@@ -101,7 +101,7 @@ class Subscription(models.Model):
     date_begin = models.DateField(
         null=False,
         blank=True,
-        default=timezone.now,
+        default=date.today,
         verbose_name=_('start date'),
     )
     date_end = models.DateField(
