@@ -50,17 +50,18 @@ class UserProfileShortSerializer(HyperlinkedModelSerializer):
             'about',
             'website',
         ]
+        extra_kwargs = {
+            'url': {'view_name': 'userprofile-detail'},
+        }
+        read_only_fields = ('pk', 'user',)
+
 
 class UserProfileSerializer(HyperlinkedModelSerializer):
     """
     Serializer for user profile
     """
     user = UserShortSerializer(read_only=True)
-    '''if 'adherents' in settings.INSTALLED_APPS:
-        subscriptions = HyperlinkedRelatedField(
-            read_only=True,
-            view_name = 'profile-subscription'
-        )'''
+    
     class Meta:
         model = UserProfile
         fields = [
@@ -78,8 +79,6 @@ class UserProfileSerializer(HyperlinkedModelSerializer):
             'about',
             'website',
         ]
-        '''if 'adherents' in settings.INSTALLED_APPS:
-            fields += ['subscriptions']'''
         extra_kwargs = {
             'url': {'view_name': 'userprofile-detail'},
             'groups': {'view_name': 'basegroup-detail'},
