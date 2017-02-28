@@ -40,7 +40,7 @@ class Adherent(UserProfile):
     def active_subscription(self):
         "Returns  currently active subscription for the adherent"
         today = date.today()
-        return self.subscriptions.filter(date_end__gte=today, date_begin__lte=today).get()
+        return self.subscriptions.filter(date_end__gte=today, date_begin__lte=today)
 
     @cached_property
     def status(self):

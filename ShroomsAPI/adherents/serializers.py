@@ -22,7 +22,12 @@ class AdherentShortSerializer(AdherentSerializerMixin, serializers.HyperlinkedMo
     """
     Short serializer for user profile
     """
-
+    active_subscription = serializers.HyperlinkedRelatedField(
+        view_name='subscription-detail',
+        read_only=True,
+        allow_null=True,
+        many=True
+    )
     class Meta:
         model = Adherent
         fields = [
@@ -34,11 +39,12 @@ class AdherentShortSerializer(AdherentSerializerMixin, serializers.HyperlinkedMo
             'last_name',
             'about',
             'website',
+            'active_subscription'
         ]
         extra_kwargs = {
             'url': {'view_name': 'adherent-detail'},
         }
-        read_only_fields = ('pk', 'user',)
+        read_only_fields = ('pk', 'user')
 
 class AdherentSerializer(AdherentSerializerMixin, serializers.HyperlinkedModelSerializer):
     """
