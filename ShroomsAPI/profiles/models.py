@@ -49,6 +49,28 @@ class BaseGroup(models.Model):
     class Meta:
         verbose_name = _("group")
 
+    """
+    DRY permissions
+    """
+
+    @staticmethod
+    @authenticated_users
+    def has_read_permission(request):
+        return True
+
+    @staticmethod
+    @allow_staff_or_superuser
+    def has_write_permission(request):
+        return False
+
+    @authenticated_users
+    def has_object_read_permission(self, request):
+        return True
+
+    @allow_staff_or_superuser
+    def has_object_write_permission(self, request):
+        return False
+
 
 class OrganisationGroup(BaseGroup):
     """
@@ -65,6 +87,28 @@ class OrganisationGroup(BaseGroup):
     class Meta:
         verbose_name = _('Organisation group')
         verbose_name_plural = _('Organisation groups')
+
+"""
+    DRY permissions
+    """
+
+    @staticmethod
+    @authenticated_users
+    def has_read_permission(request):
+        return True
+
+    @staticmethod
+    @allow_staff_or_superuser
+    def has_write_permission(request):
+        return False
+
+    @authenticated_users
+    def has_object_read_permission(self, request):
+        return True
+
+    @allow_staff_or_superuser
+    def has_object_write_permission(self, request):
+        return False
 
 
 class GroupRole(models.Model):
@@ -91,6 +135,28 @@ class GroupRole(models.Model):
     class Meta:
         verbose_name = _('role')
         verbose_name_plural = _('roles')
+
+    """
+    DRY permissions
+    """
+
+    @staticmethod
+    @authenticated_users
+    def has_read_permission(request):
+        return True
+
+    @staticmethod
+    @allow_staff_or_superuser
+    def has_write_permission(request):
+        return False
+
+    @authenticated_users
+    def has_object_read_permission(self, request):
+        return True
+
+    @allow_staff_or_superuser
+    def has_object_write_permission(self, request):
+        return False
 
 
 class GroupMembership(models.Model):
@@ -125,6 +191,28 @@ class GroupMembership(models.Model):
     class Meta:
         verbose_name = _('group membership')
         verbose_name_plural = _('group memberships')
+
+    """
+    DRY permissions
+    """
+
+    @staticmethod
+    @authenticated_users
+    def has_read_permission(request):
+        return True
+
+    @staticmethod
+    @allow_staff_or_superuser
+    def has_write_permission(request):
+        return False
+
+    @authenticated_users
+    def has_object_read_permission(self, request):
+        return True
+
+    @allow_staff_or_superuser
+    def has_object_write_permission(self, request):
+        return False
 
 
 class AbstractProfile(models.Model):
@@ -310,6 +398,26 @@ class Organisation(AbstractProfile):
     class Meta:
         verbose_name = _('Organisation')
 
+    """
+    DRY permissions
+    """
+
+    @staticmethod
+    def has_read_permission(request):
+        return True
+
+    @staticmethod
+    @allow_staff_or_superuser
+    def has_write_permission(request):
+        return False
+
+    def has_object_read_permission(self, request):
+        return True
+
+    @allow_staff_or_superuser
+    def has_object_write_permission(self, request):
+        return False
+
 
 class Shroom(models.Model):
     """
@@ -339,3 +447,25 @@ class Shroom(models.Model):
 
     objects = ShroomManager
     # Shared data : use django's content_type fwk ?
+
+"""
+    DRY permissions
+    """
+
+    @staticmethod
+    @authenticated_users
+    def has_read_permission(request):
+        return True
+
+    @staticmethod
+    @allow_staff_or_superuser
+    def has_write_permission(request):
+        return False
+
+    @authenticated_users
+    def has_object_read_permission(self, request):
+        return True
+
+    @allow_staff_or_superuser
+    def has_object_write_permission(self, request):
+        return False
