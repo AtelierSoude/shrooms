@@ -3,13 +3,15 @@ from rest_framework.serializers import (
     HyperlinkedRelatedField,
     HyperlinkedIdentityField,
     ModelSerializer,
+    SlugRelatedField
 )
 
 from profiles.models import (
     UserProfile,
     Organisation,
     BaseGroup,
-    OrganisationGroup
+    OrganisationGroup,
+    OrganisationType
 )
 
 from users.serializers import UserSerializer, UserShortSerializer
@@ -89,6 +91,10 @@ class OrganisationSerializer(HyperlinkedModelSerializer):
     """
     Organisation model serializer
     """
+    type = SlugRelatedField(
+        queryset=OrganisationType.objects.all(),
+        slug_field='type'
+    )
     class Meta:
         model = Organisation
         fields = (
@@ -146,4 +152,18 @@ class OrganisationGroupSerializer(HyperlinkedModelSerializer):
             'url': {'view_name': 'organisationgroup-detail'},
             'members': {'view_name': 'userprofile-detail'},
             'organisation': {'view_name': 'organisation-detail'},
+        }
+
+class OrganisationTypeSerializer(HyperlinkedModelSerializer):
+    """
+    Group model serializer
+    """
+    class Meta:
+        model = OrganisationType
+        fields = (
+            'url',
+            'type',
+        )
+        extra_kwargs = {
+            'url': {'view_name': 'organisationtype-detail'},
         }

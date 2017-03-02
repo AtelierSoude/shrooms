@@ -14,6 +14,7 @@ class OrganisationGroupInline(admin.TabularInline):
     model = OrganisationGroup
 
 
+
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('__str__',)
@@ -28,6 +29,11 @@ class OrganisationAdmin(admin.ModelAdmin):
     inlines = [
         OrganisationGroupInline,
     ]
+
+
+@admin.register(OrganisationType)
+class OrganisationTypeAdmin(admin.ModelAdmin):
+    list_display = ('__str__',)
 
 
 @admin.register(BaseGroup, OrganisationGroup)

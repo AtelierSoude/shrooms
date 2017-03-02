@@ -88,7 +88,7 @@ class OrganisationGroup(BaseGroup):
         verbose_name = _('Organisation group')
         verbose_name_plural = _('Organisation groups')
 
-"""
+    """
     DRY permissions
     """
 
@@ -378,11 +378,11 @@ class Organisation(AbstractProfile):
         null=False,
         verbose_name=_('full name'),
     )
-    type = models.CharField(
-        max_length=50,
+    type = models.ForeignKey(
+        'OrganisationType',
         blank=False,
         null=False,
-        verbose_name=_('type'),
+        verbose_name=_('organisation type'),
     )
     email = models.EmailField(blank=True, null=True)
     main_contact = models.ForeignKey(
@@ -411,6 +411,43 @@ class Organisation(AbstractProfile):
     def has_write_permission(request):
         return False
 
+    def has_object_read_permission(self, request):
+        return True
+
+    @allow_staff_or_superuser
+    def has_object_write_permission(self, request):
+        return False
+
+
+class OrganisationType(models.Model):
+    """
+    Available organisation types
+    """
+    type = models.CharField(
+        max_length=50,
+        blank=False,
+        null=False,
+        verbose_name=_('type'),
+    )
+
+    def __str__(self):
+        return self.type
+
+    """
+    DRY permissions
+    """
+
+    @staticmethod
+    @authenticated_users
+    def has_read_permission(request):
+        return True
+
+    @staticmethod
+    @allow_staff_or_superuser
+    def has_write_permission(request):
+        return False
+
+    @authenticated_users
     def has_object_read_permission(self, request):
         return True
 
@@ -448,7 +485,7 @@ class Shroom(models.Model):
     objects = ShroomManager
     # Shared data : use django's content_type fwk ?
 
-"""
+    """
     DRY permissions
     """
 

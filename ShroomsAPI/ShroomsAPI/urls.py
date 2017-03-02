@@ -21,7 +21,7 @@ from django.contrib import admin
 from adherents.views import (SubscribeView, SubscriptionTypeViewSet,
                              SubscriptionViewSet, AdherentViewSet)
 from profiles.views import (OrganisationViewSet, ProfileGroupViewSet,
-                            ProfileViewSet, OrganisationGroupViewSet)
+                            ProfileViewSet, OrganisationGroupViewSet, OrganisationTypeViewSet)
 from rest_framework_extensions.routers import ExtendedDefaultRouter
 from users.views import GroupViewSet, UserViewSet
 
@@ -37,6 +37,7 @@ drf_router.register(r'profiles', ProfileViewSet)
 drf_router.register(r'profiles-groups', ProfileGroupViewSet)
 drf_router.register(r'organisations', OrganisationViewSet)
 drf_router.register(r'organisations-groups', OrganisationGroupViewSet)
+drf_router.register(r'organisations-type', OrganisationTypeViewSet)
 # adherents app
 drf_router.register(r'adherents', AdherentViewSet)
 drf_router.register(r'subscriptions', SubscriptionViewSet)

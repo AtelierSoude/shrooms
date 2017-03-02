@@ -1,14 +1,15 @@
 #from actstream import action
 from django.contrib.auth import get_user_model
 from profiles.models import (BaseGroup, Organisation, OrganisationGroup,
-                             UserProfile)
+                             UserProfile, OrganisationType)
 from profiles.mixins import AltSerializerMixin
 # from .forms import *
 from profiles.serializers import (BaseGroupSerializer,
                                   OrganisationGroupSerializer,
                                   OrganisationSerializer,
                                   UserProfileSerializer,
-                                  UserProfileShortSerializer)
+                                  UserProfileShortSerializer,
+                                  OrganisationTypeSerializer)
 from rest_framework import generics, permissions, status, viewsets
 from rest_framework.response import Response
 from rest_framework_extensions.mixins import NestedViewSetMixin
@@ -58,6 +59,7 @@ class OrganisationViewSet(viewsets.ModelViewSet):
     queryset = Organisation.objects.all()
     serializer_class = OrganisationSerializer
 
+
 class OrganisationGroupViewSet(viewsets.ModelViewSet):
     """
     Organisation group viewset
@@ -65,3 +67,11 @@ class OrganisationGroupViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAdminUser,)
     queryset = OrganisationGroup.objects.all()
     serializer_class = OrganisationGroupSerializer
+
+class OrganisationTypeViewSet(viewsets.ModelViewSet):
+    """
+    Organisation group viewset
+    """
+    permission_classes = (permissions.IsAdminUser,)
+    queryset = OrganisationType.objects.all()
+    serializer_class = OrganisationTypeSerializer
